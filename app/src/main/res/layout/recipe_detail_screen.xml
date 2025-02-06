@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".RecipeDetails">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Recipe Image -->
+        <ImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <!-- Recipe Name -->
+        <TextView
+            android:id="@+id/recipeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Classic Margherita Pizza"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <!-- Difficulty, Cuisine, and Meal Type -->
+        <TextView
+            android:id="@+id/difficultyCuisineMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Easy | Italian | Dinner"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/cuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Asian"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Prep Time, Cook Time, and Servings -->
+        <TextView
+            android:id="@+id/prepCookTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prep Time: 20 min | Cook Time: 15 min"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/cookingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prep Time: 20 min | Cook Time: 15 min"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Servings: 4"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Ingredients Section -->
+        <TextView
+            android:id="@+id/ingredientsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingredients"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/ingredientsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+            <!-- Dynamically populated ingredient items will go here -->
+        </LinearLayout>
+
+        <!-- Instructions Section -->
+        <TextView
+            android:id="@+id/instructionsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructions"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/instructionsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+            <!-- Dynamically populated instruction items will go here -->
+        </LinearLayout>
+
+        <!-- Calories and Rating Section -->
+        <TextView
+            android:id="@+id/caloriesRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calories per serving: 300 | Rating: 4.6 (98 reviews)"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Tags Section -->
+        <LinearLayout
+            android:id="@+id/tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:text="Tags: Pizza | Italian"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Types Section -->
+        <LinearLayout
+            android:id="@+id/types"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:text="Tags: Dinner | Launch | Breakfast"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+</ScrollView>
