@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".MainActivity"
+    >
+   
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+
+        <EditText
+            android:id="@+id/idEdtRecipeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Name"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Ingredients"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Instructions"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipePrepTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Prep Time"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeCookTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Cook Time"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeDifficulty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Difficulty"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeServings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Servings"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeCuisine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Cuisine"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeCaloriesPerServing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Calories Per Serving"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Tags"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/idEdtRecipeMealType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Meal Type"
+            android:minHeight="48dp" />
+
+        <ImageView
+            android:id="@+id/idIVRecipeImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter Recipe Image"
+            android:src="@drawable/ic_baseline_camera_foreground"
+            android:minHeight="48dp"
+            />
+
+        <!--button for adding new recipe-->
+        <Button
+            android:id="@+id/idBtnAddRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Add Recipe"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+
+</android.widget.ScrollView>

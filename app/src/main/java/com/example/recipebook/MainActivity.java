@@ -67,6 +67,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -80,6 +82,7 @@ import com.example.recipebook.database.DBHelper;
 import com.example.recipebook.databinding.ActivityMainBinding;
 import com.example.recipebook.model.MyRecipe;
 import com.example.recipebook.model.Recipe;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -100,12 +103,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Setup navcontroller
 
         dbHelper = new DBHelper(this);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Floating action button to take me to the add new recipe screen
+        FloatingActionButton fabAddRecipe = findViewById(R.id.idFabAddRecipe);
+        fabAddRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddRecipeActvity.class);
+                startActivity(intent);
+
+            }
+        });
 
         fetchDataFromAPI();
 
@@ -121,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     MyRecipe myRecipe = response.body();
                     List<Recipe> recipes = myRecipe.getRecipes();
+                    // db operation
+
                     recipeAdapter = new RecipeAdapter(recipes, MainActivity.this);
                     recyclerView.setAdapter(recipeAdapter);
 
