@@ -78,7 +78,24 @@ public class RecipeDetails extends AppCompatActivity {
         recipeName.setText(name);
         difficultyCuisineMeal.setText(difficulty);
         cuisineType.setText(cuisine);
-        Picasso.get().load(image).into(recipeImage);
+//        Picasso.get().load(image).into(recipeImage);
+        if (image != null && !image.isEmpty()) {
+            if (image.startsWith("http://") || image.startsWith("https://")) {
+                // It's a URL, load the image from the URL
+                Picasso.get()
+                        .load(image)  // Load the image from the URL
+                        .into(recipeImage);
+            } else {
+                // It's a local file path, load the image from the file
+                Picasso.get()
+                        .load("file://" + image)  // Prefix with "file://" for local file path
+                        .into(recipeImage);
+            }
+        } else {
+            // Set a default image if no image URL or file path is provided
+            recipeImage.setImageResource(R.drawable.ic_launcher_foreground);  // Replace with a default image if desired
+        }
+
         if (ingredients != null) {
             for (String ingredient : ingredients) {
                 TextView textView = new TextView(this);

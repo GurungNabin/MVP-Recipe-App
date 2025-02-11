@@ -59,13 +59,40 @@
             android:inputType="number"
             android:minHeight="48dp" />
 
-        <EditText
-            android:id="@+id/idEdtRecipeDifficulty"
+<!--        <EditText-->
+<!--            android:id="@+id/idEdtRecipeDifficulty"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:hint="Enter Recipe Difficulty"-->
+<!--            android:minHeight="48dp" />-->
+
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="Enter Recipe Difficulty"
-            android:minHeight="48dp" />
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <RadioButton
+                android:id="@+id/radioButtonEasy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Easy" />
+
+            <RadioButton
+                android:id="@+id/radioButtonMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium" />
+
+            <RadioButton
+                android:id="@+id/radioButtonHard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hard" />
+
+        </RadioGroup>
+
 
         <EditText
             android:id="@+id/idEdtRecipeServings"

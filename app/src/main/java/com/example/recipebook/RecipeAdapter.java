@@ -1,6 +1,7 @@
 package com.example.recipebook;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,8 @@ import java.util.List;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private List<Recipe> recipeList;
-    private Activity context;
+//    private Activity context;
+    private Context context;
 
     public RecipeAdapter(List<Recipe> recipes, MainActivity mainActivity){
 
@@ -40,7 +42,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.recipeName.setText(recipe.getName());
         holder.recipeDifficulty.setText(recipe.getDifficulty());
         holder.recipeCuisine.setText(recipe.getCuisine());
-        Picasso.get().load(recipe.getImage()).into(holder.recipeImage);
+        String imagePath = recipe.getImage();
+        if (imagePath != null && !imagePath.isEmpty()) {
+            if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+
+                Picasso.get()
+                        .load(imagePath)
+                        .into(holder.recipeImage);
+            } else {
+                Picasso.get()
+                        .load("file://" + imagePath)
+                        .into(holder.recipeImage);
+            }
+        } else {
+            // If there's no image, set a default image or hide the ImageView
+            holder.recipeImage.setImageResource(R.drawable.ic_launcher_foreground);  // Replace with a default image if desired
+        }
+
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +100,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public static class RecipeViewHolder extends RecyclerView.ViewHolder{
         TextView recipeName, recipeDifficulty, recipeCuisine;
         ImageView recipeImage;
-//        LinearLayout recipeIngredients;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
@@ -90,7 +107,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             recipeDifficulty = itemView.findViewById(R.id.recipeDifficulty);
             recipeCuisine = itemView.findViewById(R.id.recipeCuisine);
             recipeImage = itemView.findViewById(R.id.recipeImage);
-//            recipeIngredients = itemView.findViewById(R.id.ingredientsList);
         }
 
     }

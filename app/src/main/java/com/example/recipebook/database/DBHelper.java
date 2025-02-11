@@ -210,7 +210,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_NAME, null, values);
         db.close();
+        if (result == -1) {
+            Log.e("DB_ERROR", "Failed to insert recipe: " + recipe.getName());
+        } else {
+            Log.d("DB_SUCCESS", "Recipe inserted successfully: " + recipe.getName());
+        }
+
         return result != -1;
+
     }
 
     public List<Recipe> getAllRecipe() {
@@ -249,9 +256,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Delete all data from the recipes table
-    public void deleteAllData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME);
-        db.close();
-    }
+//    public void deleteAllData() {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        db.execSQL("DELETE FROM " + TABLE_NAME);
+//        db.close();
+//    }
 }

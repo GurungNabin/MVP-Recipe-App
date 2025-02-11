@@ -69,6 +69,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -88,7 +90,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -96,26 +101,39 @@ public class MainActivity extends AppCompatActivity {
     private RecipeAdapter recipeAdapter;
     private DBHelper dbHelper;
 
-    ActivityMainBinding binding;
+    private List<Recipe> recipes;
+
+    private ActivityResultLauncher<Intent> addRecipeLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        recipes = new ArrayList<>();
         dbHelper = new DBHelper(this);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Floating action button to take me to the add new recipe screen
+        addRecipeLauncher = registerForActivityResult(
+          new ActivityResultContracts.StartActivityForResult(),
+          result -> {
+              if(result.getResultCode() == RESULT_OK){
+                  displayLocalData();
+//                  displayAllLocalData();
+              }
+          }
+        );
+
+
         FloatingActionButton fabAddRecipe = findViewById(R.id.idFabAddRecipe);
         fabAddRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddRecipeActvity.class);
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
+//                startActivity(intent);
+                addRecipeLauncher.launch(intent);
 
             }
         });
@@ -123,6 +141,10 @@ public class MainActivity extends AppCompatActivity {
         fetchDataFromAPI();
 
     }
+
+
+
+
 
     private void fetchDataFromAPI(){
         RecipeApiService recipeApi = RetrofitClient.getApiService();
@@ -133,17 +155,14 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MyRecipe> call, Response<MyRecipe> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     MyRecipe myRecipe = response.body();
-                    List<Recipe> recipes = myRecipe.getRecipes();
-                    // db operation
+
+                    recipes  = myRecipe.getRecipes();
+
 
                     recipeAdapter = new RecipeAdapter(recipes, MainActivity.this);
                     recyclerView.setAdapter(recipeAdapter);
 
-                    dbHelper.deleteAllData();
 
-                    for (Recipe recipe : recipes){
-                        dbHelper.insertRecipe(recipe);
-                    }
 
                     Log.d("DB","Data stored locally");
                     displayLocalData();
@@ -160,17 +179,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void displayLocalData(){
-        List<Recipe> recipes = dbHelper.getAllRecipe();
-        recipeAdapter = new RecipeAdapter(recipes, MainActivity.this);
-        recyclerView.setAdapter(recipeAdapter);
+//    private void displayLocalData(){
+//        List<Recipe> recipes = dbHelper.getAllRecipe();
+////        recipes.clear();
+//        this.recipes.addAll(recipes);
+////        recyclerView.setAdapter(recipeAdapter);
+//        recipeAdapter.notifyDataSetChanged();
+//
+//
+//
+//    }
+
+    private void displayLocalData() {
+        List<Recipe> localRecipes = dbHelper.getAllRecipe();
+
+        List<Recipe> newRecipes = new ArrayList<>();
+
+        Set<String> displayedNames = new HashSet<>();
+        for (Recipe recipe : this.recipes) {
+            displayedNames.add(recipe.getName());
+        }
+
+        for (Recipe recipe : localRecipes) {
+            if (!displayedNames.contains(recipe.getName())) {
+                newRecipes.add(recipe);
+            }
+        }
+
+        this.recipes.addAll(newRecipes);
+
+        recipeAdapter.notifyDataSetChanged();
     }
 
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.recyclerView, fragment);
-        fragmentTransaction.commit();
-    }
+
+
+
+
 
 }
