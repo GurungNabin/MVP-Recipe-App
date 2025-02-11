@@ -1,9 +1,11 @@
 package com.example.recipebook.model;
 
 
+import androidx.lifecycle.ViewModel;
+
 import java.util.ArrayList;
 
-public class Recipe {
+public class Recipe extends ViewModel {
     private String name;
     private ArrayList<String> ingredients;
     private ArrayList<String> instructions;

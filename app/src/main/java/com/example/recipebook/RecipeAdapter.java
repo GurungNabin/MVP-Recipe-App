@@ -96,6 +96,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return  recipeList.size();
     }
 
+    public void setRecipeList(List<Recipe> newRecipeList){
+        this.recipeList = newRecipeList;
+        notifyDataSetChanged();
+    }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder{
         TextView recipeName, recipeDifficulty, recipeCuisine;

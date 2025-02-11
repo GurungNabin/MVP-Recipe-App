@@ -68,6 +68,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -77,6 +78,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.recipebook.api.RecipeApiService;
 import com.example.recipebook.api.RetrofitClient;
@@ -95,7 +97,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Recipe> recipes;
 
     private ActivityResultLauncher<Intent> addRecipeLauncher;
+
 
 
     @Override
@@ -116,24 +119,27 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+recyclerView.setAdapter(recipeAdapter);
         addRecipeLauncher = registerForActivityResult(
           new ActivityResultContracts.StartActivityForResult(),
           result -> {
               if(result.getResultCode() == RESULT_OK){
                   displayLocalData();
-//                  displayAllLocalData();
               }
           }
         );
+
 
 
         FloatingActionButton fabAddRecipe = findViewById(R.id.idFabAddRecipe);
         fabAddRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
+                Intent intent = new Intent(MainActivity.this, ViewPageActivity.class);
 //                startActivity(intent);
                 addRecipeLauncher.launch(intent);
+
+
 
             }
         });
@@ -141,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
         fetchDataFromAPI();
 
     }
+
+
+
+
 
 
 
@@ -179,37 +189,48 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    private void displayLocalData(){
-//        List<Recipe> recipes = dbHelper.getAllRecipe();
-////        recipes.clear();
-//        this.recipes.addAll(recipes);
-////        recyclerView.setAdapter(recipeAdapter);
-//        recipeAdapter.notifyDataSetChanged();
-//
-//
-//
-//    }
 
-    private void displayLocalData() {
-        List<Recipe> localRecipes = dbHelper.getAllRecipe();
 
-        List<Recipe> newRecipes = new ArrayList<>();
 
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayLocalData();
+    }
+
+    public void displayLocalData() {
+        List<Recipe> localRecipes = dbHelper.getAllRecipe(); // Fetch local data
+
+        List<Recipe> combinedRecipes = new ArrayList<>(recipes); // Start with API data
+
+        // Avoid duplicates by checking existing recipe names
         Set<String> displayedNames = new HashSet<>();
-        for (Recipe recipe : this.recipes) {
+        for (Recipe recipe : recipes) {
             displayedNames.add(recipe.getName());
         }
 
         for (Recipe recipe : localRecipes) {
             if (!displayedNames.contains(recipe.getName())) {
-                newRecipes.add(recipe);
+                combinedRecipes.add(recipe); // Add only if not already in the list
             }
         }
 
-        this.recipes.addAll(newRecipes);
-
-        recipeAdapter.notifyDataSetChanged();
+        // Update RecyclerView
+        if (recipeAdapter != null) {
+            recipeAdapter.setRecipeList(combinedRecipes);
+            recipeAdapter.notifyDataSetChanged();
+        } else {
+            recipeAdapter = new RecipeAdapter(combinedRecipes, MainActivity.this);
+            recyclerView.setAdapter(recipeAdapter);
+        }
     }
+
+
+
+
+
 
 
 
