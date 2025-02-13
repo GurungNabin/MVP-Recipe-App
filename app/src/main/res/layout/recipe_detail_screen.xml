@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="none"
-    tools:context=".RecipeDetails">
+    tools:context=".recipe.RecipeDetails">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +15,26 @@
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
-        <!-- Recipe Image -->
-        <ImageView
-            android:id="@+id/recipeImage"
-            android:layout_width="match_parent"
+        <com.google.android.material.carousel.MaskableFrameLayout
+            android:layout_width="130dp"
             android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground"
-            android:layout_marginBottom="16dp" />
+            android:id="@+id/carousel_item_container"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:foreground="?attr/selectableItemBackground"
+            app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
+
+            <!-- Recipe Image -->
+            <ImageView
+                android:id="@+id/recipeImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_foreground"
+                android:layout_marginBottom="16dp" />
+
+        </com.google.android.material.carousel.MaskableFrameLayout>
+
 
         <!-- Recipe Name -->
         <TextView

@@ -5,7 +5,7 @@
 //import androidx.appcompat.app.AppCompatActivity;
 //import androidx.recyclerview.widget.LinearLayoutManager;
 //import androidx.recyclerview.widget.RecyclerView;
-//import com.example.recipebook.RecipeAdapter;
+//import com.example.recipebook.recipe.RecipeAdapter;
 //import com.example.recipebook.api.RecipeApiService;
 //import com.example.recipebook.api.RetrofitClient;
 //import com.example.recipebook.model.MyRecipe;
@@ -63,29 +63,24 @@
 
 package com.example.recipebook;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.recipebook.api.RecipeApiService;
 import com.example.recipebook.api.RetrofitClient;
 import com.example.recipebook.database.DBHelper;
-import com.example.recipebook.databinding.ActivityMainBinding;
 import com.example.recipebook.model.MyRecipe;
 import com.example.recipebook.model.Recipe;
+import com.example.recipebook.recipe.RecipeAdapter;
+import com.example.recipebook.recipe.ViewPageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import retrofit2.Call;

@@ -1,11 +1,22 @@
 package com.example.recipebook.model;
 
 
-import androidx.lifecycle.ViewModel;
-
 import java.util.ArrayList;
 
-public class Recipe extends ViewModel {
+public class Recipe {
+    public Recipe(int prepTimeMinutes, int cookTimeMinutes, int caloriesPerServing, int servings, String difficulty) {
+        this.prepTimeMinutes = prepTimeMinutes;
+        this.cookTimeMinutes = cookTimeMinutes;
+        this.caloriesPerServing = caloriesPerServing;
+        this.servings = servings;
+        this.difficulty = difficulty;
+    }
+
+    public Recipe(ArrayList<String> ingredients, ArrayList<String> instructions) {
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+    }
+
     private String name;
     private ArrayList<String> ingredients;
     private ArrayList<String> instructions;
@@ -20,6 +31,14 @@ public class Recipe extends ViewModel {
     private float rating;
     private int reviewCount;
     private ArrayList<String> mealType;
+
+    public Recipe(String name, String cuisine, ArrayList<String> tags, String image, ArrayList<String> mealType) {
+        this.name = name;
+        this.cuisine = cuisine;
+        this.tags = tags;
+        this.image = image;
+        this.mealType = mealType;
+    }
 
 
     public String getName() { return name; }

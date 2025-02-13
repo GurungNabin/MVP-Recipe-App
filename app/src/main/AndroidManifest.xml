@@ -31,8 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecipeDetails"/>
-        <activity android:name=".ViewPageActivity"/>
+        <activity android:name=".recipe.RecipeDetails"/>
+        <activity android:name=".recipe.ViewPageActivity"/>
     </application>
 
 </manifest>

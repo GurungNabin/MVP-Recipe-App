@@ -3,81 +3,222 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecipeNameFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".recipe.RecipeNameFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:title="Recipe Info"
+        app:titleTextColor="@color/white"
+        android:elevation="4dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_marginTop="56dp"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".MainActivity"
+            tools:ignore="ExtraText">
+
+            <ImageView
+                android:id="@+id/idIVRecipeImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Enter Recipe Image"
+                android:minHeight="48dp"
+                android:src="@drawable/ic_baseline_camera_foreground" />
+
+            <EditText
+                android:id="@+id/idEdtRecipeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Enter Recipe Name"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/idEdtRecipeCuisine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Enter Recipe Cuisine"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/idEdtRecipeTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Enter Recipe Tags"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/idEdtRecipeMealType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Enter Meal Type"
+                android:minHeight="48dp" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupMealType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleLine="false"
+                    android:orientation="horizontal">
+
+                    <!-- Meal Types -->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipBreakfast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Breakfast"
+                        app:closeIconVisible="false"
+                        android:checkable="true"
+                        />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipLunch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lunch"
+                        app:closeIconVisible="false"
+                        android:checkable="true"
+                        />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipDinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dinner"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipBrunch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Brunch"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSupper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Supper"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSnack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Snack"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipTea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tea"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipLateNight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Late Night"
+                        app:closeIconVisible="false"
+                        android:checkable="true" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipHolidayMeal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Holiday Meal"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPreDinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pre-Dinner"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipElevenses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Elevenses"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipBuffet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Buffet"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPicnic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Picnic"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipFeast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Feast"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCocktailParty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cocktail Party"
+                        app:closeIconVisible="false"
+                        android:checkable="true" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSpecialOccasion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Special Occasion"
+                        app:closeIconVisible="false"
+                        android:checkable="true"/>
+
+                </com.google.android.material.chip.ChipGroup>
+            </androidx.core.widget.NestedScrollView>
 
 
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:padding="10dp">
+        </LinearLayout>
 
-      <LinearLayout
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:orientation="vertical"
-          tools:context=".MainActivity"
-          tools:ignore="ExtraText">
-
-          <ImageView
-              android:id="@+id/idIVRecipeImage"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:hint="Enter Recipe Image"
-              android:src="@drawable/ic_baseline_camera_foreground"
-              android:minHeight="48dp"/>
-
-
-          <EditText
-              android:id="@+id/idEdtRecipeName"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:hint="Enter Recipe Name"
-              android:minHeight="48dp" />
-
-
-          <EditText
-              android:id="@+id/idEdtRecipeCuisine"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:hint="Enter Recipe Cuisine"
-              android:minHeight="48dp" />
-
-          <EditText
-              android:id="@+id/idEdtRecipeTags"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:hint="Enter Recipe Tags"
-              android:minHeight="48dp" />
-
-          <EditText
-              android:id="@+id/idEdtRecipeMealType"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:hint="Enter Meal Type"
-              android:minHeight="48dp" />
-
-          <Button
-              android:id="@+id/idBtnNext"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:text="Next"
-              android:textAllCaps="true" />
-
-      </LinearLayout>
-
-  </ScrollView>
-
-
-
-
-
+    </ScrollView>
 
 </FrameLayout>

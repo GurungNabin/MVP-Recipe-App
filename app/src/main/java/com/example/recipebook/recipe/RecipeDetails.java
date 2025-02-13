@@ -1,4 +1,4 @@
-package com.example.recipebook;
+package com.example.recipebook.recipe;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.recipebook.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

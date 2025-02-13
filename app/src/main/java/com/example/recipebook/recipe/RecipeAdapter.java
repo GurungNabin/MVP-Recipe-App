@@ -1,17 +1,17 @@
-package com.example.recipebook;
+package com.example.recipebook.recipe;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipebook.MainActivity;
+import com.example.recipebook.R;
 import com.example.recipebook.model.Recipe;
 import com.squareup.picasso.Picasso;
 
