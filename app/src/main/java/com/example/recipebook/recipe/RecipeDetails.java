@@ -1,5 +1,4 @@
 package com.example.recipebook.recipe;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,17 +9,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.recipebook.R;
+import com.example.recipebook.model.Recipe;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class RecipeDetails extends AppCompatActivity {
 
-    String name, difficulty, cuisine, image;
-    int prepTime, cookTime, servings, caloriesPerServing;
-    ArrayList<String> ingredients, instructions, tags, types;
+    private  ImageAdapter imageAdapter;
+    private ViewPager viewPager;
 
     TextView recipeName, prepCookTime, cookingTime, servingPeople, difficultyCuisineMeal, cuisineType, caloriesRating;
     LinearLayout ingredientsList,instructionList,tagsList, mealType;
@@ -31,19 +32,65 @@ public class RecipeDetails extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail_screen);
-
-        Intent intent = getIntent();
-
-        // Log all received extras
-        if (intent.getExtras() != null) {
-            for (String key : intent.getExtras().keySet()) {
-                Object value = intent.getExtras().get(key);
-                Log.d("RecipeDetails", "Received Intent Extra - " + key + ": " + value);
-            }
-        } else {
-            Log.e("RecipeDetails", "Intent extras are NULL");
+        initializeView();
+        Recipe recipe = getIntent().getParcelableExtra("recipe");
+        if (recipe != null) {
+            setData(recipe);
         }
+    }
 
+    private void setData(Recipe recipe) {
+        recipeName.setText(recipe.getName());
+        prepCookTime.setText("Time to prepare " + recipe.getPrepTimeMinutes() + " min");
+        cookingTime.setText("Time to cook "+ recipe.getCookTimeMinutes() + " min");
+        servingPeople.setText(recipe.getServings() + " people");
+        caloriesRating.setText(recipe.getCaloriesPerServing() + " kcal");
+
+
+        if (recipe.getIngredients() != null) {
+            for (String ingredient : recipe.getIngredients()) {
+                TextView textView = new TextView(this);
+                textView.setText(ingredient);
+                textView.setPadding(8, 8, 8, 8);
+                ingredientsList.addView(textView);
+            }
+        }
+        if (recipe.getInstructions() != null) {
+            for (String ingredient : recipe.getInstructions()) {
+                TextView textView = new TextView(this);
+                textView.setText(ingredient);
+                textView.setPadding(8, 8, 8, 8);
+                instructionList.addView(textView);
+            }
+        }
+        if(recipe.getTags() != null){
+            for (String tags : recipe.getTags()){
+                TextView textView = new TextView(this);
+                textView.setText( tags);
+                textView.setPadding(8, 8, 8, 8);
+                tagsList.addView(textView);
+            }
+        }
+        if(recipe.getMealType() != null){
+            for (String types : recipe.getMealType()){
+                TextView textView = new TextView(this);
+                textView.setText( types);
+                textView.setPadding(8, 8, 8, 8);
+                mealType.addView(textView);
+            }
+        }
+        if(recipe.getImage() != null) {
+            setImageAdapter(recipe.getImage());
+        }
+    }
+
+    private void setImageAdapter(ArrayList<String> recipeImage) {
+//        recipeImage.add("/storage/emulated/0/Android/data/com.example.recipebook/files/recipe_images/recipe_image_1739419973983.png");
+        imageAdapter = new ImageAdapter(this, recipeImage);
+        viewPager.setAdapter(imageAdapter);
+    }
+
+    private void initializeView() {
         recipeName = findViewById(R.id.recipeName);
         ingredientsList = findViewById(R.id.ingredientsList);
         instructionList = findViewById(R.id.instructionsList);
@@ -56,87 +103,6 @@ public class RecipeDetails extends AppCompatActivity {
         tagsList = findViewById(R.id.tags);
         recipeImage = findViewById(R.id.recipeImage);
         mealType = findViewById(R.id.types);
-
-        name = intent.getStringExtra("name");
-        difficulty = intent.getStringExtra("difficulty");
-        cuisine = intent.getStringExtra("cuisine");
-        image = intent.getStringExtra("image");
-        prepTime = intent.getIntExtra("prepTime",0);
-        cookTime = intent.getIntExtra("cookTime", 0);
-        servings = intent.getIntExtra("servings", 0);
-        caloriesPerServing = intent.getIntExtra("caloriesPerServing", 0);
-        ingredients = intent.getStringArrayListExtra("ingredients");
-        instructions = intent.getStringArrayListExtra("instructions");
-        tags = intent.getStringArrayListExtra("tags");
-        types = intent.getStringArrayListExtra("mealType");
-
-        Log.d("RecipeDetails", "Retrieved Values - PrepTime: " + prepTime +
-                ", CookTime: " + cookTime +
-                ", Servings: " + servings +
-                ", Calories: " + caloriesPerServing);
-
-
-        recipeName.setText(name);
-        difficultyCuisineMeal.setText(difficulty);
-        cuisineType.setText(cuisine);
-//        Picasso.get().load(image).into(recipeImage);
-        if (image != null && !image.isEmpty()) {
-            if (image.startsWith("http://") || image.startsWith("https://")) {
-                // It's a URL, load the image from the URL
-                Picasso.get()
-                        .load(image)  // Load the image from the URL
-                        .into(recipeImage);
-            } else {
-                // It's a local file path, load the image from the file
-                Picasso.get()
-                        .load("file://" + image)  // Prefix with "file://" for local file path
-                        .into(recipeImage);
-            }
-        } else {
-            // Set a default image if no image URL or file path is provided
-            recipeImage.setImageResource(R.drawable.ic_launcher_foreground);  // Replace with a default image if desired
-        }
-
-        if (ingredients != null) {
-            for (String ingredient : ingredients) {
-                TextView textView = new TextView(this);
-                textView.setText(ingredient);
-                textView.setPadding(8, 8, 8, 8);
-                ingredientsList.addView(textView);
-            }
-        }
-        if (instructions != null) {
-            for (String ingredient : instructions) {
-                TextView textView = new TextView(this);
-                textView.setText(ingredient);
-                textView.setPadding(8, 8, 8, 8);
-                instructionList.addView(textView);
-            }
-        }
-        prepCookTime.setText("Time to prepare " + prepTime + " min");
-        cookingTime.setText("Time to cook "+ cookTime + " min");
-        servingPeople.setText(servings + " people");
-        caloriesRating.setText(caloriesPerServing + " kcal");
-        if(tags != null){
-            for (String tags : tags){
-                TextView textView = new TextView(this);
-                textView.setText( tags);
-                textView.setPadding(8, 8, 8, 8);
-                tagsList.addView(textView);
-            }
-        }
-        if(types != null){
-            for (String types : types){
-                TextView textView = new TextView(this);
-                textView.setText( types);
-                textView.setPadding(8, 8, 8, 8);
-                mealType.addView(textView);
-            }
-        }
-
-        Log.d("Type", "The types " + types);
-
-
+        viewPager = findViewById(R.id.viewPagerMain);
     }
 }
-

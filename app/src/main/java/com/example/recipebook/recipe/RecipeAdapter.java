@@ -2,6 +2,7 @@ package com.example.recipebook.recipe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,13 @@ import com.example.recipebook.R;
 import com.example.recipebook.model.Recipe;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private List<Recipe> recipeList;
-//    private Activity context;
+    //    private Activity context;
     private Context context;
 
     public RecipeAdapter(List<Recipe> recipes, MainActivity mainActivity){
@@ -42,7 +44,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.recipeName.setText(recipe.getName());
         holder.recipeDifficulty.setText(recipe.getDifficulty());
         holder.recipeCuisine.setText(recipe.getCuisine());
-        String imagePath = recipe.getImage();
+//        String imagePath = String.valueOf(recipe.getImage());
+        String imagePath = recipe.getImage().get(0);
+//        imagePath = imagePath.replaceAll("^\\{|\\}$", "");
+
         if (imagePath != null && !imagePath.isEmpty()) {
             if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
 
@@ -50,8 +55,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                         .load(imagePath)
                         .into(holder.recipeImage);
             } else {
+
+                File imageFile = new File(imagePath);
                 Picasso.get()
-                        .load("file://" + imagePath)
+                        .load(imageFile)
                         .into(holder.recipeImage);
             }
         } else {
@@ -64,29 +71,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, RecipeDetails.class);
-                i.putExtra("name", recipe.getName());
-                i.putExtra("ingredients", recipe.getIngredients());
-                i.putExtra("instructions", recipe.getInstructions());
-                i.putExtra("prepTime", recipe.getPrepTimeMinutes());
-
-                i.putExtra("cookTime", recipe.getCookTimeMinutes());
-                i.putExtra("servings", recipe.getServings());
-                i.putExtra("difficulty", recipe.getDifficulty());
-                i.putExtra("cuisine", recipe.getCuisine());
-                i.putExtra("caloriesPerServing", recipe.getCaloriesPerServing());
-                i.putExtra("tags", recipe.getTags());
-                i.putExtra("image", recipe.getImage());
-                i.putExtra("mealType", recipe.getMealType());
-
-
-
-
-                context.startActivity(i);
-
-
-
-
+                Intent intent = new Intent(context, RecipeDetails.class);
+                intent.putExtra("recipe", recipe);
+                context.startActivity(intent);
             }
         });
     }
@@ -98,7 +85,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public void setRecipeList(List<Recipe> newRecipeList){
         this.recipeList = newRecipeList;
-        notifyDataSetChanged();
     }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder{

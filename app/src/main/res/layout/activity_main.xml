@@ -35,10 +35,4 @@
         app:tint="@color/white"
         tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
 
-
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

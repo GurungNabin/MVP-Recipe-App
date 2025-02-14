@@ -9,31 +9,30 @@
     android:scrollbars="none"
     tools:context=".recipe.RecipeDetails">
 
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
-        <com.google.android.material.carousel.MaskableFrameLayout
-            android:layout_width="130dp"
+        <!--        Carousel Image-->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPagerMain"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:id="@+id/carousel_item_container"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:foreground="?attr/selectableItemBackground"
-            app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
+            tools:ignore="SpeakableTextPresentCheck">
 
-            <!-- Recipe Image -->
-            <ImageView
-                android:id="@+id/recipeImage"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_foreground"
-                android:layout_marginBottom="16dp" />
+            <!--            <ImageView-->
+            <!--                android:id="@+id/recipeImage2"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="250dp"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                android:scaleType="centerCrop" />-->
 
-        </com.google.android.material.carousel.MaskableFrameLayout>
+        </androidx.viewpager.widget.ViewPager>
 
 
         <!-- Recipe Name -->
@@ -183,7 +182,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!-- Dynamically populated types will go here -->
         </LinearLayout>
 
     </LinearLayout>

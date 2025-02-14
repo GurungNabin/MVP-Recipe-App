@@ -205,7 +205,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_CUISINE, recipe.getCuisine());
         values.put(COLUMN_CALORIESPERSERVING, recipe.getCaloriesPerServing());
         values.put(COLUMN_TAGS, String.join(",", recipe.getTags()));
-        values.put(COLUMN_IMAGE, recipe.getImage());
+        values.put(COLUMN_IMAGE, String.join(",",recipe.getImage()));
         values.put(COLUMN_MEALTYPE, String.join(",", recipe.getMealType()));
 
         long result = db.insert(TABLE_NAME, null, values);
@@ -240,7 +240,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     recipe.setCuisine(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUISINE)));
                     recipe.setCaloriesPerServing(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CALORIESPERSERVING)));
                     recipe.setTags(new ArrayList<>(Arrays.asList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TAGS)).split(","))));
-                    recipe.setImage(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE)));
+                    recipe.setImage(new ArrayList<>(Arrays.asList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE)).split(","))));
+//                    recipe.setImage(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE)));
                     recipe.setMealType(new ArrayList<>(Arrays.asList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEALTYPE)).split(","))));
 
                     recipes.add(recipe);

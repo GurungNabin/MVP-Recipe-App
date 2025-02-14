@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -42,10 +43,13 @@ import java.util.List;
 
 public class RecipeNameFragment extends Fragment {
 
-     EditText edtRecipeName, edtRecipeCuisine, edtRecipeTags, edtRecipeTypes;
-     ImageView ivRecipeImage;
-     String image;
-     ChipGroup chipGroupMealType;
+    EditText edtRecipeName, edtRecipeCuisine, edtRecipeTags, edtRecipeTypes;
+    ImageView ivRecipeImage;
+    ArrayList<String> image;
+    ChipGroup chipGroupMealType;
+
+    private LinearLayout imageContainer;
+    private ArrayList<Bitmap> capturedImages = new ArrayList<>(); // Store captured images
 
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<Intent> galleryLauncher;
@@ -63,11 +67,12 @@ public class RecipeNameFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_recipe_name, container, false);
+        image = new ArrayList<>();
 
         edtRecipeName = view.findViewById(R.id.idEdtRecipeName);
         edtRecipeCuisine = view.findViewById(R.id.idEdtRecipeCuisine);
         edtRecipeTags = view.findViewById(R.id.idEdtRecipeTags);
-        edtRecipeTypes = view.findViewById(R.id.idEdtRecipeMealType);
+//        edtRecipeTypes = view.findViewById(R.id.idEdtRecipeMealType);
         ivRecipeImage = view.findViewById(R.id.idIVRecipeImage);
 
         chipGroupMealType = view.findViewById(R.id.chipGroupMealType);
@@ -75,44 +80,40 @@ public class RecipeNameFragment extends Fragment {
         chipGroupMealType.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                // Clear the previous selected chips (optional, depending on your use case)
-                // You could store the selected chips in a list or handle them as needed.
 
                 for (Integer checkedId : checkedIds) {
-                    // Find the chip corresponding to the checked ID
-                    Chip selectedChip = view.findViewById(checkedId);
+                   Chip selectedChip = view.findViewById(checkedId);
 
-                    // Log the selected chip text (or handle the selection as needed)
                     Log.d("ChipSelection", selectedChip.getText().toString() + " selected");
                 }
             }
         });
 
-        // Initialize ActivityResultLaunchers for Camera and Gallery
+
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                 Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
-                ivRecipeImage.setImageBitmap(photo);
+
+                // Add captured photo to the list
+                capturedImages.add(photo);
+
+                // Save image to external storage
                 saveImageToExternalStorage(photo);
+
+                // Add image to the LinearLayout to show multiple images
+                addImageToGallery(photo);
+
+                // Re-trigger the camera for the next photo
+                openImageSelector(); // Re-open the camera for the next photo
             }
         });
 
-//        galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-//            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-//                Uri selectedImageUri = result.getData().getData();
-//                try {
-//                    Bitmap selectedImageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-//                    ivRecipeImage.setImageBitmap(selectedImageBitmap);
-//                   saveImageToExternalStorage(selectedImageBitmap);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                 ArrayList<Uri> imageUris = new ArrayList<>();
+
                 // Check if multiple images are selected
                 if (result.getData().getClipData() != null) {
                     int count = result.getData().getClipData().getItemCount();
@@ -121,8 +122,26 @@ public class RecipeNameFragment extends Fragment {
                         imageUris.add(imageUri);
                         try {
                             Bitmap selectedImageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-                            ivRecipeImage.setImageBitmap(selectedImageBitmap);  // You can display the last selected image for now
+
+                            // Create ImageView to display the selected image
+                            ImageView imageView = new ImageView(getContext());
+
+                            // Set fixed size for all images
+                            int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size); // Defined in dimens.xml
+
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imageSize, imageSize);
+                            imageView.setLayoutParams(layoutParams);
+
+                            // Set the image bitmap
+                            imageView.setImageBitmap(selectedImageBitmap);
+
+                            // Add the ImageView to the LinearLayout
+                            LinearLayout linearLayoutImages = getView().findViewById(R.id.selectedImagesCarousel);
+                            linearLayoutImages.addView(imageView);
+
+                            // Save the image to external storage
                             saveImageToExternalStorage(selectedImageBitmap);
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -133,16 +152,31 @@ public class RecipeNameFragment extends Fragment {
                     imageUris.add(selectedImageUri);
                     try {
                         Bitmap selectedImageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                        ivRecipeImage.setImageBitmap(selectedImageBitmap);
+
+                        // Create ImageView to display the selected image
+                        ImageView imageView = new ImageView(getContext());
+
+                        // Set fixed size for all images
+                        int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size); // Defined in dimens.xml
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imageSize, imageSize);
+                        imageView.setLayoutParams(layoutParams);
+
+                        // Set the image bitmap
+                        imageView.setImageBitmap(selectedImageBitmap);
+
+                        // Add the ImageView to the LinearLayout
+                        LinearLayout linearLayoutImages = getView().findViewById(R.id.selectedImagesCarousel);
+                        linearLayoutImages.addView(imageView);
+
+                        // Save the image to external storage
                         saveImageToExternalStorage(selectedImageBitmap);
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-                // Now you can use imageUris which holds the list of selected images
             }
         });
-
 
         ivRecipeImage.setOnClickListener(v -> {
             // Check for camera permission before opening the camera
@@ -160,12 +194,29 @@ public class RecipeNameFragment extends Fragment {
         return view;
     }
 
+    private void addImageToGallery(Bitmap photo) {
+        ImageView imageView = new ImageView(getContext());
+
+        // Set fixed size for all images
+        int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size); // Defined in dimens.xml
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imageSize, imageSize);
+        imageView.setLayoutParams(layoutParams);
+
+        // Set the image bitmap
+        imageView.setImageBitmap(photo);
+
+        // Add the ImageView to the LinearLayout
+        LinearLayout linearLayoutImages = getView().findViewById(R.id.selectedImagesCarousel);
+        linearLayoutImages.addView(imageView);
+    }
+
+
     public Recipe collectDataFromNameFragment() {
         String recipeName = edtRecipeName.getText().toString().trim();  // Make sure this is the correct EditText for the name
         String recipeCuisine = edtRecipeCuisine.getText().toString().trim();  // Same for cuisine
         ArrayList<String> recipeTags = new ArrayList<>(Arrays.asList(edtRecipeTags.getText().toString().split(",")));
 //        ArrayList<String> recipeTypes = new ArrayList<>(Arrays.asList(edtRecipeTypes.getText().toString().split(",")));
-        String recipeImage = image;  // Ensure this EditText is properly accessed
+        ArrayList<String> recipeImage = image;  // Ensure this EditText is properly accessed
 
         ArrayList<String> recipeTypes = new ArrayList<>();
         int chipCount = chipGroupMealType.getChildCount();
@@ -219,12 +270,19 @@ public class RecipeNameFragment extends Fragment {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
 
-            // Save the file path (or URI) to the variable
-            image = file.getAbsolutePath();
-
+            if (image != null) {
+                image.add(file.getAbsolutePath());
+            } else {
+                Log.e("Image Error", "Image list is not initialized!");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+
+
+
 
 }

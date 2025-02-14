@@ -30,13 +30,27 @@
             tools:ignore="ExtraText">
 
             <ImageView
-                android:id="@+id/idIVRecipeImage"
+                android:scrollbars="vertical"
+                    android:id="@+id/idIVRecipeImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="Enter Recipe Image"
+                    android:minHeight="48dp"
+                    android:src="@drawable/ic_baseline_camera_foreground" />
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="Enter Recipe Image"
-                android:minHeight="48dp"
-                android:src="@drawable/ic_baseline_camera_foreground" />
+                android:layout_margin="8dp">
+                <LinearLayout
+                    android:id="@+id/selectedImagesCarousel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+            </HorizontalScrollView>
+
+
 
             <EditText
                 android:id="@+id/idEdtRecipeName"
@@ -60,14 +74,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="Enter Recipe Tags"
-                android:minHeight="48dp" />
-
-            <EditText
-                android:id="@+id/idEdtRecipeMealType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="Enter Meal Type"
                 android:minHeight="48dp" />
 
             <androidx.core.widget.NestedScrollView
@@ -215,7 +221,6 @@
 
                 </com.google.android.material.chip.ChipGroup>
             </androidx.core.widget.NestedScrollView>
-
 
         </LinearLayout>
 
