@@ -1,3 +1,23 @@
+<!--<resources xmlns:tools="http://schemas.android.com/tools">-->
+<!--    &lt;!&ndash; Base application theme &ndash;&gt;-->
+<!--    <style name="Theme.RecipeBook" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+<!--        &lt;!&ndash; Primary color &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorOnPrimary">@color/white</item>-->
+
+<!--        &lt;!&ndash; Background color for light theme &ndash;&gt;-->
+<!--        <item name="android:background">@color/background_color</item>-->
+
+<!--        &lt;!&ndash; Text colors for light theme &ndash;&gt;-->
+<!--        <item name="android:textColorPrimary">@color/text_color</item>-->
+
+<!--        &lt;!&ndash; Customize your theme here &ndash;&gt;-->
+<!--        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/black</item>-->
+<!--    </style>-->
+<!--</resources>-->
+
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.RecipeBook" parent="Theme.Material3.DayNight.NoActionBar">

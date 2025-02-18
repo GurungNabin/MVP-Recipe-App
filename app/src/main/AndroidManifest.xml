@@ -24,7 +24,7 @@
         android:theme="@style/Theme.RecipeBook"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,8 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".recipe.RecipeDetails"/>
-        <activity android:name=".recipe.ViewPageActivity"/>
+        <activity android:name=".recipe.view.RecipeDetails"/>
+        <activity android:name=".recipe.view.RecipePageActivity"/>
+        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>

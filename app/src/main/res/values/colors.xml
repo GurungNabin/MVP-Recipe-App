@@ -1,8 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Colors for both light and dark themes -->
+    <color name="black">#111111</color>
+    <color name="white">#FFFFFF</color>
     <color name="colorPrimary">#56AEF4</color>
     <color name="colorPrimaryDark">#003E70</color>
     <color name="colorAccent">#001484</color>
-</resources><!--<?xml version="1.0" encoding="utf-8"?>-->
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="gray_stroke">#59707070</color>
+    <color name="gray_solid">#1A707070</color>
+    <color name="light_gray">#E8E8E8</color>
+
+    <!-- Background color based on theme -->
+    <color name="background_color">#FFFFFF</color> <!-- Light mode background color -->
+
+    <!-- Text colors based on theme -->
+    <color name="text_color">#000000</color> <!-- Text color for light theme -->
+
+    <!-- Dark mode colors -->
+    <color name="background_color_dark">#000000</color> <!-- Dark mode background color -->
+    <color name="text_color_dark">#FFFFFF</color> <!-- Text color for dark theme -->
+</resources>
