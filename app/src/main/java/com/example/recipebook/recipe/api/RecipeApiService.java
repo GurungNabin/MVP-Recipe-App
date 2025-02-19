@@ -1,6 +1,6 @@
 package com.example.recipebook.recipe.api;
 
-import com.example.recipebook.recipe.model.MyApiRecipe;
+import com.example.recipebook.recipe.presenter.MyApiRecipe;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

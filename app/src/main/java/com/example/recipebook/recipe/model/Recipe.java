@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Recipe implements Parcelable {
     private int id;
@@ -71,6 +72,17 @@ public class Recipe implements Parcelable {
             return new Recipe[size];
         }
     };
+
+
+
+    public Recipe(int prepTime, int cookTime, int servings, int calories) {
+        this.prepTimeMinutes = prepTime;
+        this.cookTimeMinutes = cookTime;
+        this.caloriesPerServing = servings;
+        this.servings = calories;
+    }
+
+
 
     @Override
     public int describeContents() {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipebook.MainActivity;
 import com.example.recipebook.R;
+import com.example.recipebook.food.RecipeDetails;
 import com.example.recipebook.recipe.database.DBHelper;
 import com.example.recipebook.recipe.model.Recipe;
 import com.squareup.picasso.Picasso;
@@ -95,6 +96,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Intent intent = new Intent(context, RecipeDetails.class);
                 Intent intent = new Intent(context, RecipeDetails.class);
                 intent.putExtra("recipe", recipe);
                 context.startActivity(intent);

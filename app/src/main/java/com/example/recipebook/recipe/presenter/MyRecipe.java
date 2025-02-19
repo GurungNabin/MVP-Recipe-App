@@ -1,4 +1,6 @@
-package com.example.recipebook.recipe.model;
+package com.example.recipebook.recipe.presenter;
+
+import com.example.recipebook.recipe.model.Recipe;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.recipebook.recipe.view.fragments;
+package com.example.recipebook.food.view;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -23,13 +23,15 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import androidx.fragment.app.Fragment;
 
 import com.example.recipebook.R;
+import com.example.recipebook.food.contract.RecipeNameContract;
+import com.example.recipebook.food.presenter.RecipeNamePresenter;
 import com.example.recipebook.recipe.model.Recipe;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -41,12 +43,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RecipeNameFragment extends Fragment {
+public class RecipeNameFragment extends Fragment implements RecipeNameContract.View {
+
+    private RecipeNameContract.Presenter presenter;
 
     EditText edtRecipeName, edtRecipeCuisine, edtRecipeTags, edtRecipeTypes;
     ImageView ivRecipeImage;
     ArrayList<String> image;
     ChipGroup chipGroupMealType;
+
 
     private LinearLayout imageContainer;
     private ArrayList<Bitmap> capturedImages = new ArrayList<>(); // Store captured images
@@ -57,16 +62,14 @@ public class RecipeNameFragment extends Fragment {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 
 
-    public RecipeNameFragment() {
-        // Required empty public constructor
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_name, container, false);
+
+        presenter = new RecipeNamePresenter(this);
+
         image = new ArrayList<>();
 
         edtRecipeName = view.findViewById(R.id.idEdtRecipeName);
@@ -81,7 +84,7 @@ public class RecipeNameFragment extends Fragment {
             public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
 
                 for (Integer checkedId : checkedIds) {
-                   Chip selectedChip = view.findViewById(checkedId);
+                    Chip selectedChip = view.findViewById(checkedId);
 
                     Log.d("ChipSelection", selectedChip.getText().toString() + " selected");
                 }
@@ -186,118 +189,101 @@ public class RecipeNameFragment extends Fragment {
                 // Permission granted, proceed with camera
                 openImageSelector();
             }});
-
-
-
-
         return view;
     }
 
-    private void addImageToGallery(Bitmap photo) {
-        ImageView imageView = new ImageView(getContext());
-
-        // Set fixed size for all images
-        int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size); // Defined in dimens.xml
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imageSize, imageSize);
-        imageView.setLayoutParams(layoutParams);
-
-        // Set the image bitmap
-        imageView.setImageBitmap(photo);
-
-        // Add the ImageView to the LinearLayout
-        LinearLayout linearLayoutImages = getView().findViewById(R.id.selectedImagesCarousel);
-        linearLayoutImages.addView(imageView);
-    }
-
-
-    public Recipe collectDataFromNameFragment() {
-        String recipeName = edtRecipeName.getText().toString().trim();  // Make sure this is the correct EditText for the name
-        if(recipeName.isEmpty()){
-            Toast.makeText(getActivity(),"Recipe name is required",Toast.LENGTH_SHORT).show();
-            return null;
-        }
-        String recipeCuisine = edtRecipeCuisine.getText().toString().trim();  // Same for cuisine
-        if (recipeCuisine.isEmpty()) {
-            Toast.makeText(getActivity(), "Cuisine is required", Toast.LENGTH_SHORT).show();
-            return null;
-        }
-//        ArrayList<String> recipeTags = new ArrayList<>(Arrays.asList(edtRecipeTags.getText().toString().split(",")));
-        String tagsInput = edtRecipeTags.getText().toString().trim();
-        ArrayList<String> recipeTags = new ArrayList<>();
-        if (!tagsInput.isEmpty()) {
-            recipeTags.addAll(Arrays.asList(tagsInput.split(",")));
-        }
-        ArrayList<String> recipeImage = image;  // Ensure this EditText is properly accessed
-        if (recipeImage.isEmpty()) {
-            Toast.makeText(getActivity(), "At least one image is required", Toast.LENGTH_SHORT).show();
-            return null;
-        }
-
-        ArrayList<String> recipeTypes = new ArrayList<>();
-        int chipCount = chipGroupMealType.getChildCount();
-        for (int i = 0; i < chipCount; i++) {
-            Chip chip = (Chip) chipGroupMealType.getChildAt(i);
-            if (chip.isChecked()) {
-                recipeTypes.add(chip.getText().toString());
-            }
-        }
-
-        if (recipeTypes.isEmpty()) {
-            Toast.makeText(getActivity(), "Please select at least one meal type", Toast.LENGTH_SHORT).show();
-            return null;
-        }
-
-
-
-        return new Recipe(
-                recipeName, recipeCuisine, recipeTags, recipeImage, recipeTypes
-        );
-
-    }
-
-
-
-
     private void openImageSelector() {
-        CharSequence[] options = new CharSequence[]{"Take Photo", "Choose from Gallery"};
+        CharSequence[] options = new CharSequence[]{"Take Photo","Choose from Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Select Image Source");
         builder.setItems(options, (dialog, which) -> {
             if (which == 0) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraLauncher.launch(cameraIntent);
-            } else {
+            }else {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
                 galleryLauncher.launch(intent);
             }
         });
         builder.show();
     }
 
+    private void addImageToGallery(Bitmap photo) {
+        ImageView imageView = new ImageView(getContext());
+        int imageSize = 150;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imageSize,imageSize);
+        imageView.setLayoutParams(layoutParams);
+
+        imageView.setImageBitmap(photo);
+
+        LinearLayout linearLayoutImages = getView().findViewById(R.id.selectedImagesCarousel);
+        linearLayoutImages.addView(imageView);
+    }
 
     private void saveImageToExternalStorage(Bitmap bitmap) {
-        // Define the file path for saving the image
         File directory = new File(getContext().getExternalFilesDir(null), "recipe_images");
-        if (!directory.exists()) {
-            directory.mkdir(); // Create directory if it doesn't exist
+        if(!directory.exists()){
+            directory.mkdir();
         }
 
-        // Create a new file with a unique name
         String fileName = "recipe_image_" + System.currentTimeMillis() + ".png";
         File file = new File(directory, fileName);
 
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        try (FileOutputStream fos = new FileOutputStream(file)){
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-
-            if (image != null) {
+            if (image != null){
                 image.add(file.getAbsolutePath());
-            } else {
-                Log.e("Image Error", "Image list is not initialized!");
+            }else {
+                Log.e("Image Error","Image list is not initialized");
             }
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public Recipe collectDataFromNameFragment(){
+        String name = edtRecipeName.getText().toString().trim();
+        String cuisine = edtRecipeCuisine.getText().toString().trim();
+        ArrayList<String> recipeTags = new ArrayList<>(Arrays.asList(edtRecipeTags.getText().toString().split(",")));
+        ArrayList<String> mealTypes = new ArrayList<>();
+
+        int chipCount = chipGroupMealType.getChildCount();
+        for (int i = 0; i < chipCount; i++) {
+            Chip chip = (Chip) chipGroupMealType.getChildAt(i);
+            if(chip.isChecked()){
+                mealTypes.add(chip.getText().toString());
+            }
+        }
+
+        presenter.validateAndCollectRecipeData(name, cuisine, recipeTags, image,mealTypes);
+
+        return new Recipe(name, cuisine, recipeTags,image,mealTypes  );
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onRecipeSavedSuccessfully() {
+        Toast.makeText(getActivity(), "Recipe saved successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showRecipeImage(Bitmap image) {
+        ivRecipeImage.setImageBitmap(image);
+    }
+
+    @Override
+    public void updateChipSelection(ArrayList<String> selectedChips) {
+        for (int i = 0; i < chipGroupMealType.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroupMealType.getChildAt(i);
+            if(selectedChips.contains(chip.getText().toString())){
+                chip.setChecked(true);
+            }
         }
     }
 
@@ -306,30 +292,17 @@ public class RecipeNameFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // Intercept back button press inside this fragment
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true){
             @Override
             public void handleOnBackPressed() {
-                // Handle back button action explicitly
                 navigateBackToMain();
             }
         });
     }
 
-    // Explicitly manage the back navigation
     private void navigateBackToMain() {
-        // Replace the fragment or navigate to your MainActivity
-        // For example, let's say you want to replace the current fragment with the MainFragment
-
-        // Option 1: Replace with MainFragment (or MainActivity)
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new RecipeNameFragment()) // Replace with your main fragment
-                .commit();
+                .replace(R.id.fragment_container, new RecipeNameFragment()).commit();
 
-        // Option 2: If you want to exit the fragment and go back to MainActivity
-        requireActivity().finish(); // This will exit the fragment and go back to the MainActivity
     }
-
-
-
 }

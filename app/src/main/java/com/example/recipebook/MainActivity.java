@@ -241,7 +241,7 @@
 //import com.example.recipebook.recipe.api.RetrofitClient;
 //import com.example.recipebook.recipe.database.DBHelper;
 //import com.example.recipebook.recipe.model.ApiRecipe;
-//import com.example.recipebook.recipe.model.MyApiRecipe;
+//import com.example.recipebook.recipe.presenter.MyApiRecipe;
 //import com.example.recipebook.recipe.model.Recipe;
 //import com.example.recipebook.recipe.view.RecipeAdapter;
 //import com.example.recipebook.recipe.view.RecipePageActivity;
@@ -406,7 +406,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.recipebook.food.FoodFragment;
+import com.example.recipebook.food.RecipeFragment;
 import com.example.recipebook.home.HomeFragment;
 import com.example.recipebook.profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
 
         // If the navigateTo flag is set to "foodFragment", load the FoodFragment
         if ("foodFragment".equals(navigateTo)) {
-            selectedFragment = new FoodFragment();
+            selectedFragment = new RecipeFragment();
             bottomNavigationView.setSelectedItemId(R.id.nav_recipe);  // Select the 'Recipe' tab
         }
 
@@ -468,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.nav_recipe) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new FoodFragment())
+                    .replace(R.id.fragment_container, new RecipeFragment())
                     .commit();
             return true;
         } else if (item.getItemId() == R.id.nav_profile) {

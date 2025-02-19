@@ -9,7 +9,7 @@
     android:padding="16dp"
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="none"
-    tools:context=".recipe.view.RecipeDetails">
+    tools:context=".food.RecipeDetails">
 
 
 
@@ -35,7 +35,7 @@
             android:id="@+id/recipeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Classic Margherita Pizza"
+            android:text="Food Name"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -43,11 +43,19 @@
             android:layout_marginBottom="8dp" />
 
         <!-- Difficulty, Cuisine, and Meal Type -->
-        <TextView
-            android:id="@+id/difficultyCuisineMeal"
+<!--        <TextView-->
+<!--            android:id="@+id/difficultyCuisineMeal"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Easy | Italian | Dinner"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="@android:color/darker_gray"-->
+<!--            android:layout_marginBottom="8dp" />-->
+<TextView
+            android:id="@+id/difficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Easy | Italian | Dinner"
+            android:text="Difficulty"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginBottom="8dp" />
@@ -56,7 +64,7 @@
             android:id="@+id/cuisine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Asian"
+            android:text="Cuisine Type"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginBottom="8dp" />
@@ -66,7 +74,7 @@
             android:id="@+id/prepCookTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prep Time: 20 min | Cook Time: 15 min"
+            android:text="Prep Time: In minutes"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginBottom="8dp" />
@@ -75,7 +83,7 @@
             android:id="@+id/cookingTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prep Time: 20 min | Cook Time: 15 min"
+            android:text="Cook Time: In minutes"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginBottom="8dp" />
@@ -84,7 +92,7 @@
             android:id="@+id/servings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Servings: 4"
+            android:text="Servings: To how many people"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginBottom="16dp" />
@@ -134,7 +142,7 @@
             android:id="@+id/caloriesRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calories per serving: 300 | Rating: 4.6 (98 reviews)"
+            android:text="Calories per serving: "
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginBottom="16dp" />

@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".recipe.view.RecipeDetails"/>
+        <activity android:name=".food.RecipeDetails"/>
         <activity android:name=".recipe.view.RecipePageActivity"/>
         <activity android:name=".MainActivity"/>
     </application>

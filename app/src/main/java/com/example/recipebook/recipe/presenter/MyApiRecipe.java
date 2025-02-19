@@ -1,5 +1,6 @@
-package com.example.recipebook.recipe.model;
+package com.example.recipebook.recipe.presenter;
 
+import com.example.recipebook.recipe.model.ApiRecipe;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

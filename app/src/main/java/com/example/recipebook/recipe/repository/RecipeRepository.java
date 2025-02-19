@@ -8,7 +8,7 @@ import com.example.recipebook.recipe.model.Recipe;
 
 import java.util.List;
 
-public class RecipeRepository {
+public class RecipeRepository implements IRecipeRepository {
     private DBHelper dbHelper;
     private static final int PAGE_SIZE = 2;
     private int currentPage = 0;

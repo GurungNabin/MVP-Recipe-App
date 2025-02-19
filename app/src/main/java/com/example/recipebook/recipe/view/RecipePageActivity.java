@@ -11,16 +11,17 @@ import androidx.fragment.app.Fragment;
 
 import com.example.recipebook.MainActivity;
 import com.example.recipebook.R;
-import com.example.recipebook.food.FoodFragment;
+import com.example.recipebook.food.contract.RecipeNameContract;
+import com.example.recipebook.food.view.IngredientsInstructionsFragment;
+import com.example.recipebook.food.view.RecipeNameFragment;
+import com.example.recipebook.food.view.RecipeOtherFragment;
 import com.example.recipebook.recipe.database.DBHelper;
 import com.example.recipebook.recipe.model.Recipe;
-import com.example.recipebook.recipe.view.fragments.IngredientsInstructionsFragment;
-import com.example.recipebook.recipe.view.fragments.RecipeNameFragment;
-import com.example.recipebook.recipe.view.fragments.RecipeOtherFragment;
 
 public class RecipePageActivity extends AppCompatActivity {
 
     Recipe myRecipes;
+    private RecipeNameContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class RecipePageActivity extends AppCompatActivity {
         setContentView(R.layout.recipe);
         myRecipes = new Recipe();
         if (savedInstanceState == null) {
+//            loadFragment(new RecipeNameFragment());
             loadFragment(new RecipeNameFragment());
         }
 
@@ -35,6 +37,22 @@ public class RecipePageActivity extends AppCompatActivity {
 
         nextButton.setOnClickListener(v -> {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+//            if (currentFragment instanceof RecipeNameFragment) {
+//                // Collect data from RecipeNameFragment
+//                RecipeNameFragment recipeNameFragment = (RecipeNameFragment) currentFragment;
+//                Recipe data = recipeNameFragment.collectDataFromNameFragment();
+//                if (data != null) {
+//                    myRecipes.setName(data.getName());
+//                    myRecipes.setCuisine(data.getCuisine());
+//                    myRecipes.setTags(data.getTags());
+//                    myRecipes.setMealType(data.getMealType());
+//                    myRecipes.setImage(data.getImage());
+//                    RecipeOtherFragment otherFragment = new RecipeOtherFragment();
+//                    loadFragment(otherFragment);
+//                }
+//            }
+
 
             if (currentFragment instanceof RecipeNameFragment) {
                 // Collect data from RecipeNameFragment
@@ -49,7 +67,37 @@ public class RecipePageActivity extends AppCompatActivity {
                     RecipeOtherFragment otherFragment = new RecipeOtherFragment();
                     loadFragment(otherFragment);
                 }
-            } else if (currentFragment instanceof RecipeOtherFragment) {
+            }
+
+
+
+
+
+
+
+
+
+//            else if (currentFragment instanceof RecipeOtherFragment) {
+//                // Collect data from RecipeOtherFragment
+//                RecipeOtherFragment recipeOtherFragment = (RecipeOtherFragment) currentFragment;
+//                Recipe dataFromOtherFragment = recipeOtherFragment.collectDataFromFragment();
+//
+//                if (dataFromOtherFragment != null) {
+//                    myRecipes.setServings(dataFromOtherFragment.getServings());
+//                    myRecipes.setPrepTimeMinutes(dataFromOtherFragment.getPrepTimeMinutes());
+//                    myRecipes.setCookTimeMinutes(dataFromOtherFragment.getCookTimeMinutes());
+//                    myRecipes.setCaloriesPerServing(dataFromOtherFragment.getCaloriesPerServing());
+//                    myRecipes.setDifficulty(dataFromOtherFragment.getDifficulty());
+//                    IngredientsInstructionsFragment lastFragment = new IngredientsInstructionsFragment();
+//
+//
+//                    loadFragment(lastFragment);
+//                }
+//
+//            }
+
+
+            else if (currentFragment instanceof RecipeOtherFragment) {
                 // Collect data from RecipeOtherFragment
                 RecipeOtherFragment recipeOtherFragment = (RecipeOtherFragment) currentFragment;
                 Recipe dataFromOtherFragment = recipeOtherFragment.collectDataFromFragment();
@@ -63,13 +111,23 @@ public class RecipePageActivity extends AppCompatActivity {
                     IngredientsInstructionsFragment lastFragment = new IngredientsInstructionsFragment();
 
 
+                    Log.d("RecipePageActivity", "Navigating to IngredientsInstructionsFragment");
+
                     loadFragment(lastFragment);
+                } else {
+                    Log.e("RecipePageActivity", "collectDataFromFragment() returned null");
                 }
 
-            } else if (currentFragment instanceof IngredientsInstructionsFragment) {
+            }
+
+
+
+
+
+            else if (currentFragment instanceof IngredientsInstructionsFragment) {
                 // Collect data from IngredientsInstructionFragment
                 IngredientsInstructionsFragment ingredientsInstructionFragment = (IngredientsInstructionsFragment) currentFragment;
-                Recipe dataFromIngredientsInstructionFragment = ingredientsInstructionFragment.collectDataFromFragment();
+                Recipe dataFromIngredientsInstructionFragment = ingredientsInstructionFragment.onSaveButtonClick();
                 Log.d("ViewPageActivity", "Data from RecipeFinalFragment: " + dataFromIngredientsInstructionFragment); // Log the bundle data
 
 
