@@ -9,7 +9,7 @@
     android:padding="16dp"
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="none"
-    tools:context=".food.RecipeDetails">
+    tools:context=".recipe.RecipeDetails">
 
 
 

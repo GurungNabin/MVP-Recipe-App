@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Contract;
 
 public class HomeContract {
 
-    interface View{
+   public interface View{
         void showProgress();
 
         void hideProgress();
@@ -12,7 +12,7 @@ public class HomeContract {
         void setString(String string);
     }
 
-    interface Model {
+   public interface Model {
         interface OnFinishedListener{
             void onFinished(String string);
         }
@@ -20,7 +20,7 @@ public class HomeContract {
         void getNextMovie(HomeContract.Model.OnFinishedListener onFinishedListener);
     }
 
-    interface Presenter{
+   public interface Presenter{
         void onButtonClick();
 
         void onDestroy();

@@ -1,7 +1,7 @@
 <resources>
     <string name="hey_there">Hey there!</string>
     <string name="welcome">Welcome back.</string>
-    <string name="app_name">LoginApp</string>
+<!--    <string name="app_name">LoginApp</string>-->
     <string name="additional">You\'ve been missed!</string>
     <string name="email_placeholder">Email or username</string>
     <string name="password_placeholder">Password</string>

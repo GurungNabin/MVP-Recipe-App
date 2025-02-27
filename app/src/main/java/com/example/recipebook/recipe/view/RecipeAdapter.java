@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipebook.MainActivity;
 import com.example.recipebook.R;
-import com.example.recipebook.food.RecipeDetails;
+import com.example.recipebook.recipe.RecipeDetails;
 import com.example.recipebook.recipe.database.DBHelper;
 import com.example.recipebook.recipe.model.Recipe;
 import com.squareup.picasso.Picasso;
@@ -38,7 +38,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recipe_item, parent, false);
+                .inflate(R.layout.recipe_main_item, parent, false);
         return new RecipeViewHolder(view);
     }
 

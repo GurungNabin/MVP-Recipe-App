@@ -29,7 +29,6 @@ public class LoginPresenterTest {
         loginPresenter = new LoginPresenter(mockView, mockModel);
     }
 
-    // Test case for successfully login
     @Test
     public void testLoginSuccess(){
         String username = "testUser";
@@ -42,7 +41,6 @@ public class LoginPresenterTest {
         verify(mockView).showLoginSuccessMessage();
     }
 
-    // Test case for failed login with invalid credentials
     @Test
     public void testLoginError(){
         String username = "testUser";
@@ -55,7 +53,6 @@ public class LoginPresenterTest {
         verify(mockView).showInvalidCredentialsError();
     }
 
-    // Test case for empty user name
     @Test
     public void testEmptyUsername(){
         String username = "";
@@ -66,7 +63,6 @@ public class LoginPresenterTest {
         verify(mockView).showUsernameEmptyError();
     }
 
-    // Test case for empty password
     @Test
     public void testEmptyPassword(){
         String username = "testUser";
@@ -77,7 +73,6 @@ public class LoginPresenterTest {
         verify(mockView).showPasswordEmptyError();
     }
 
-    // Test case for null username
     @Test
     public void testNullUsername(){
         String username = null;
@@ -88,7 +83,6 @@ public class LoginPresenterTest {
         verify(mockView).showUsernameEmptyError();
     }
 
-    // Test case for null password
     @Test
     public void testNullPassword(){
         String username = "testUser";
@@ -99,8 +93,7 @@ public class LoginPresenterTest {
         verify(mockView).showPasswordEmptyError();
     }
 
-    // Test case for login failure due to model returning false (invalid credentials)
-    @Test
+      @Test
     public void testLoginFailure(){
         String username = "testUser";
         String password = "wrongPassword";
@@ -112,8 +105,7 @@ public class LoginPresenterTest {
         verify(mockView).showInvalidCredentialsError();
     }
 
-    // Test case for login success when model returns true
-    @Test
+     @Test
     public void testLoginSuccessWhenModelReturnsTrue(){
         String username = "validUser";
         String password = "validPassword";

@@ -1,4 +1,3 @@
-import java.util.Locale
 
 plugins {
     alias(libs.plugins.android.application)
@@ -9,6 +8,7 @@ android {
     namespace = "com.example.recipebook"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.example.recipebook"
         minSdk = 19
@@ -17,8 +17,11 @@ android {
         versionName = "1.0"
         multiDexEnabled = true
 
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+
 
     buildTypes {
         release {
@@ -31,8 +34,29 @@ android {
         debug {
             enableAndroidTestCoverage = true
             enableUnitTestCoverage = true
+            isMinifyEnabled = false
         }
     }
+
+    flavorDimensions += listOf("default")
+
+    productFlavors {
+        create("free") {
+            applicationId = "com.example.recipebook.free"
+            versionName = "1.0-free"
+            dimension = "default"
+            resValue("string", "app_name", "RecipeBook Free")
+        }
+        create("paid") {
+            applicationId = "com.example.recipebook.paid"
+            versionName = "1.0-paid"
+            dimension = "default"
+            resValue("string", "app_name", "RecipeBook Paid")
+        }
+    }
+
+
+
 
     buildFeatures{
         viewBinding = true
@@ -48,15 +72,14 @@ android {
 
 
 
-
 dependencies {
-    //  Network
+    // Network
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.okhttp)
 
-    // picture
-    implementation (libs.picasso)
+    // Picture
+    implementation(libs.picasso)
 
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -64,14 +87,22 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.room.common)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 
-
-    // test dependencies
-    testImplementation (libs.junit.v412)
+    // Test dependencies: junit and mockito for testing
+    testImplementation(libs.junit.v412)
     testImplementation(libs.mockito.core)
 
+    testImplementation("org.mockito:mockito-inline:4.0.0")
+    testImplementation("org.robolectric:robolectric:4.9")
+
+    // Espresso core and testing
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
+
+    // AndroidX testing libraries
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
 }
 
 
@@ -91,8 +122,7 @@ tasks.withType(Test::class) {
 }
 
 
-android {
-    applicationVariants.all {
+android.applicationVariants.all {
         // Correctly manipulating the string in Kotlin
         var variantName = this.name
         if (variantName[0].isLowerCase()) {
@@ -124,4 +154,4 @@ android {
             ))
         }
     }
-}
+
