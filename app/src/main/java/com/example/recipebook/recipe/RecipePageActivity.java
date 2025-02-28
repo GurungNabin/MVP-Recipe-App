@@ -6,14 +6,18 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import com.example.recipebook.MainActivity;
 import com.example.recipebook.R;
 import com.example.recipebook.recipe.contract.RecipePageContract;
+import com.example.recipebook.recipe.model.Recipe;
 import com.example.recipebook.recipe.presenter.RecipePagePresenter;
 import com.example.recipebook.recipe.view.RecipeNameFragment;
 import com.example.recipebook.recipe.database.DBHelper;
+
+import java.util.List;
 
 public class RecipePageActivity extends AppCompatActivity implements RecipePageContract.View {
     private RecipePagePresenter presenter;
@@ -35,6 +39,8 @@ public class RecipePageActivity extends AppCompatActivity implements RecipePageC
                 presenter.handleNext(currentFragment);
             }
         });
+
+
     }
 
     @Override
@@ -55,4 +61,5 @@ public class RecipePageActivity extends AppCompatActivity implements RecipePageC
         startActivity(intent);
         finish();
     }
+
 }

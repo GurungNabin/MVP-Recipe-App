@@ -11,16 +11,21 @@ import com.example.recipebook.recipe.view.RecipeOtherFragment;
 import com.example.recipebook.recipe.database.DBHelper;
 import com.example.recipebook.recipe.model.Recipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecipePagePresenter implements RecipePageContract.Presenter {
 
     private RecipePageContract.View view;
     private Recipe recipe;
     private DBHelper dbHelper;
+    private List<Recipe> allRecipes;
 
     public RecipePagePresenter(RecipePageContract.View view,DBHelper dbHelper) {
         this.view = view;
         this.recipe = new Recipe();
         this.dbHelper = dbHelper;
+        loadAllRecipes();
     }
 
 
@@ -73,5 +78,27 @@ public class RecipePagePresenter implements RecipePageContract.Presenter {
             e.printStackTrace();
             view.showToast("Error: " + e.getMessage());
         }
+    }
+
+
+
+    private void loadAllRecipes() {
+        try {
+            allRecipes = dbHelper.getAllRecipe(0,0); // Assume getAllRecipes() returns a List<Recipe>
+        } catch (Exception e) {
+            e.printStackTrace();
+            view.showToast("Error loading recipes: " + e.getMessage());
+        }
+    }
+
+
+    private List<Recipe> filterRecipes(String query){
+        List<Recipe> filteredRecipes = new ArrayList<>();
+        for(Recipe recipe: allRecipes){
+            if(recipe.getName().toLowerCase().contains(query.toLowerCase())){
+                filteredRecipes.add(recipe);
+            }
+        }
+        return  filteredRecipes;
     }
 }

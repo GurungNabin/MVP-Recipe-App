@@ -1,16 +1,22 @@
 package com.example.recipebook.recipe;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,10 +49,13 @@ public class RecipeFragment extends Fragment implements RecipeView {
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
     private List<Recipe> recipes;
-    private RecipePresenter presenter;
+     private RecipePresenter presenter;
     private DBHelper dbHelper;
     private ActivityResultLauncher<Intent> addRecipeLauncher;
     private boolean isLoading = false;
+
+    private SearchView searchBar;
+
 
     @Nullable
     @Override
@@ -63,6 +72,33 @@ public class RecipeFragment extends Fragment implements RecipeView {
 
         recipeAdapter = new RecipeAdapter(recipes,dbHelper, (MainActivity) requireActivity());
         recyclerView.setAdapter(recipeAdapter);
+
+        searchBar = view.findViewById(R.id.searchView);
+        searchBar.setOnClickListener(v->{
+            searchBar.onActionViewExpanded();
+            searchBar.requestFocus();
+        });
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    fetchDataFromAPI();  // Fetch and show data from API
+
+                } else {
+                    // When there is a search query, show the filtered results
+                    presenter.showSearchRecipe(newText, recipes);
+                }
+                return false;
+            }
+
+        });
 
         FloatingActionButton fabAddRecipe = view.findViewById(R.id.idFabAddRecipe);
         fabAddRecipe.setOnClickListener(v->{
@@ -113,6 +149,9 @@ public class RecipeFragment extends Fragment implements RecipeView {
                     MyApiRecipe myApiRecipe = response.body();
                     List<ApiRecipe> apiRecipes = myApiRecipe.getApiRecipes();
 
+                    Log.d("API_DATA", "Fetched API data: " + apiRecipes.size());
+
+
                     for (ApiRecipe apiRecipe : apiRecipes) {
                         Recipe recipe = getRecipe(apiRecipe);
                         recipes.add(recipe);
@@ -129,6 +168,8 @@ public class RecipeFragment extends Fragment implements RecipeView {
             }
         });
     }
+
+
 
     private @NonNull Recipe getRecipe(ApiRecipe apiRecipe) {
         Recipe recipe = new Recipe();
@@ -174,6 +215,19 @@ public class RecipeFragment extends Fragment implements RecipeView {
         recipeAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public void showFilteredRecipes(List<Recipe> filteredRecipes) {
+        this.recipes.clear();
+        this.recipes.addAll(filteredRecipes);
+
+        recipeAdapter.notifyDataSetChanged();
+        presenter.loadRecipes();
+    }
+
+
+
+
     @Override
     public void showError(String message) {
 
@@ -186,4 +240,14 @@ public class RecipeFragment extends Fragment implements RecipeView {
         intent.putExtra("recipe_id",recipe.getId());
         startActivity(intent);
     }
+
+    @Override
+    public void searchALlRecipe(List<Recipe> recipes) {
+        this.recipes.clear();
+        this.recipes.addAll(recipes);
+        recipeAdapter.notifyDataSetChanged(); // Notify adapter to refresh the list
+
+
+    }
+
 }

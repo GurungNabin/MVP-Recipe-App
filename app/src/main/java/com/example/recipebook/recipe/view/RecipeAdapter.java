@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipebook.MainActivity;
@@ -131,6 +132,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public void setRecipeList(List<Recipe> newRecipeList){
         this.recipeList = newRecipeList;
+    }
+
+    public void updateRecipes(List<Recipe> filteredRecipes) {
     }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder{

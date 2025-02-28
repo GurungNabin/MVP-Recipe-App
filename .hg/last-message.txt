@@ -1,1 +1,1 @@
-First commit in mercurial
+Adding search function in recipe
