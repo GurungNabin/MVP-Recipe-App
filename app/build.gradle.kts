@@ -103,6 +103,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
+
+    // pdf
+    implementation("com.itextpdf:itext7-core:7.1.14")
 }
 
 

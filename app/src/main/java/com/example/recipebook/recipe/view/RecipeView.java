@@ -1,5 +1,7 @@
 package com.example.recipebook.recipe.view;
 
+import android.content.Context;
+
 import com.example.recipebook.recipe.model.ApiRecipe;
 import com.example.recipebook.recipe.model.Recipe;
 
@@ -12,7 +14,10 @@ public interface RecipeView {
    void showFilteredRecipes(List<Recipe> filteredRecipes);
    void showError(String message);
    void navigateToRecipeDetails(Recipe recipe);
+   void showDownloadErrorMessage();  // New method for error handling
+   void showDownloadComplete(String message);
 
+   Context getContext();
 
    void searchALlRecipe(List<Recipe> recipes);
 }

@@ -27,9 +27,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="testLoginSuccess()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="testEditTextInput()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>

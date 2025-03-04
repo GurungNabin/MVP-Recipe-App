@@ -6,7 +6,14 @@ import com.example.recipebook.recipe.model.ApiRecipe;
 import com.example.recipebook.recipe.view.RecipeView;
 import com.example.recipebook.recipe.model.Recipe;
 import com.example.recipebook.recipe.repository.IRecipeRepository;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.ListItem;
+import com.itextpdf.layout.element.Table;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +22,8 @@ public class RecipePresenterImpl implements RecipePresenter {
     private RecipeView view;
     private IRecipeRepository repository;
     private boolean isLoading = false;
+
+
 
     public RecipePresenterImpl(RecipeView view, IRecipeRepository repository){
         this.view = view;
@@ -28,6 +37,8 @@ public class RecipePresenterImpl implements RecipePresenter {
         isLoading = true;
 
         List<Recipe> recipes = repository.getNextPage();
+
+        Log.d("LOAD_RECIPES", "Loaded recipes from repository: " + recipes.size());
 
         if(recipes != null && !recipes.isEmpty()){
 
@@ -98,7 +109,6 @@ public class RecipePresenterImpl implements RecipePresenter {
             view.showFilteredRecipes(filteredRecipes);  // Show only the filtered recipes
         }
     }
-
 
 
 

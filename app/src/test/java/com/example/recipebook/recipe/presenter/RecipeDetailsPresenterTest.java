@@ -3,8 +3,8 @@ package com.example.recipebook.recipe.presenter;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import com.example.recipebook.recipe.contract.RecipeDetailContract;
 import com.example.recipebook.recipe.model.Recipe;
-import com.example.recipebook.recipe.view.RecipeDetailsView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +17,14 @@ import java.util.Arrays;
 public class RecipeDetailsPresenterTest {
 
     @Mock
-    private RecipeDetailsView mockView;
+//    private RecipeDetailsView mockView;
+    private RecipeDetailContract.View mockView;
     private RecipeDetailsPresenter presenter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        presenter = new RecipeDetailsPresenter(mockView);
+        presenter = new RecipeDetailsPresenter(mockView );
     }
 
     @Test

@@ -1,23 +1,33 @@
 package com.example.recipebook.recipe;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.recipebook.R;
+import com.example.recipebook.recipe.contract.RecipeDetailContract;
 import com.example.recipebook.recipe.presenter.RecipeDetailsPresenter;
-import com.example.recipebook.recipe.view.RecipeDetailsView;
+//import com.example.recipebook.recipe.view.RecipeDetailsView;
 import com.example.recipebook.recipe.adapter.ImageAdapter;
 import com.example.recipebook.recipe.model.Recipe;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
+import java.io.File;
 import java.util.ArrayList;
 
-public class RecipeDetails extends AppCompatActivity implements RecipeDetailsView {
+public class RecipeDetails extends AppCompatActivity implements RecipeDetailContract.View {
     private RecipeDetailsPresenter presenter;
     private ImageAdapter imageAdapter;
     private ViewPager viewPager;
@@ -25,6 +35,10 @@ public class RecipeDetails extends AppCompatActivity implements RecipeDetailsVie
     TextView recipeName, prepCookTime, cookingTime, servingPeople, difficultyCuisineMeal, cuisineType, caloriesRating;
     LinearLayout ingredientsList,instructionList,tagsList, mealType;
     ImageView recipeImage;
+
+    private FloatingActionButton downloadButton;
+    private boolean isDownloaded = false;
+    private File pdfFile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,8 +50,32 @@ public class RecipeDetails extends AppCompatActivity implements RecipeDetailsVie
         presenter = new RecipeDetailsPresenter(this);
 
         Recipe recipe = getIntent().getParcelableExtra("recipe");
-        presenter.loadRecipeDetails(recipe);
+
+
+        if(recipe != null){
+            presenter.loadRecipeDetails(recipe);
+        }else {
+            Toast.makeText(this,"No any recipe",Toast.LENGTH_SHORT).show();
+        }
+
+        downloadButton = findViewById(R.id.idFabDownload);
+
+
+
+        downloadButton.setOnClickListener(v -> {
+            if (isDownloaded) {
+                if (pdfFile != null) {
+                    showShareOption(pdfFile);
+                }
+            } else {
+                presenter.downloadRecipeAsPdf(recipe);
+            }
+        });
+
+
+
     }
+
 
     private void initializeView() {
         recipeName = findViewById(R.id.recipeName);
@@ -56,7 +94,7 @@ public class RecipeDetails extends AppCompatActivity implements RecipeDetailsVie
 
     }
 
-    @Override
+
     public void showRecipeDetails(Recipe recipe) {
         recipeName.setText(recipe.getName());
         difficultyCuisineMeal.setText(recipe.getDifficulty());
@@ -75,6 +113,42 @@ public class RecipeDetails extends AppCompatActivity implements RecipeDetailsVie
             setImageAdapter(recipe.getImage());
         }
     }
+
+    @Override
+    public void onDownloadSuccess(File pdfFile) {
+        Toast.makeText(this, "Download Complete!", Toast.LENGTH_SHORT).show();
+
+        isDownloaded =true;
+        this.pdfFile = pdfFile;
+        downloadButton.setImageResource(R.drawable.share_foreground);
+
+    }
+
+    @Override
+    public void onDownloadFailure(String error) {
+        Toast.makeText(this, "Download Failed: " + error, Toast.LENGTH_SHORT).show();
+
+    }
+
+
+
+
+
+    private void showShareOption(File file) {
+        if (file != null && file.exists()) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
+
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(Intent.createChooser(shareIntent, "Share PDF"));
+        } else {
+            Toast.makeText(this, "PDF file is not available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void setImageAdapter(ArrayList<String> recipeImage) {
         imageAdapter = new ImageAdapter(this, recipeImage);

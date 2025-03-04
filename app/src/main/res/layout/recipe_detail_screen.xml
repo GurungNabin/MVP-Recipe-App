@@ -1,201 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:scrollbarStyle="outsideOverlay"
-    android:scrollbars="none"
-    tools:context=".recipe.RecipeDetails">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
-
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/recipeScroll"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"
+        tools:context=".recipe.RecipeDetails">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <!--        Carousel Image-->
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPagerMain"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                tools:ignore="SpeakableTextPresentCheck">
+
+            </androidx.viewpager.widget.ViewPager>
+
+
+            <!-- Recipe Name -->
+            <TextView
+                android:id="@+id/recipeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food Name"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Difficulty, Cuisine, and Meal Type -->
+            <!--        <TextView-->
+            <!--            android:id="@+id/difficultyCuisineMeal"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="Easy | Italian | Dinner"-->
+            <!--            android:textSize="16sp"-->
+            <!--            android:textColor="@android:color/darker_gray"-->
+            <!--            android:layout_marginBottom="8dp" />-->
+            <TextView
+                android:id="@+id/difficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Difficulty"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/cuisine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cuisine Type"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Prep Time, Cook Time, and Servings -->
+            <TextView
+                android:id="@+id/prepCookTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prep Time: In minutes"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/cookingTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cook Time: In minutes"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/servings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Servings: To how many people"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Ingredients Section -->
+            <TextView
+                android:id="@+id/ingredientsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingredients"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/ingredientsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+                <!-- Dynamically populated ingredient items will go here -->
+            </LinearLayout>
+
+            <!-- Instructions Section -->
+            <TextView
+                android:id="@+id/instructionsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instructions"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/instructionsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+                <!-- Dynamically populated instruction items will go here -->
+            </LinearLayout>
+
+            <!-- Calories and Rating Section -->
+            <TextView
+                android:id="@+id/caloriesRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories per serving: "
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Tags Section -->
+            <TextView
+                android:id="@+id/tagsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tags"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <!-- Dynamically populated tags will go here -->
+            </LinearLayout>
+
+            <!-- Types Section -->
+
+
+
+            <TextView
+                android:id="@+id/typesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Types"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+    </ScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/idFabDownload"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="16dp">
+        android:layout_margin="16dp"
+        android:src="@drawable/download_foreground"
 
-        <!--        Carousel Image-->
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPagerMain"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            tools:ignore="SpeakableTextPresentCheck">
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/recipeScroll"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
 
-        </androidx.viewpager.widget.ViewPager>
-
-
-        <!-- Recipe Name -->
-        <TextView
-            android:id="@+id/recipeName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Food Name"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Difficulty, Cuisine, and Meal Type -->
-<!--        <TextView-->
-<!--            android:id="@+id/difficultyCuisineMeal"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Easy | Italian | Dinner"-->
-<!--            android:textSize="16sp"-->
-<!--            android:textColor="@android:color/darker_gray"-->
-<!--            android:layout_marginBottom="8dp" />-->
-<TextView
-            android:id="@+id/difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Difficulty"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/cuisine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cuisine Type"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Prep Time, Cook Time, and Servings -->
-        <TextView
-            android:id="@+id/prepCookTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prep Time: In minutes"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/cookingTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cook Time: In minutes"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/servings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Servings: To how many people"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Ingredients Section -->
-        <TextView
-            android:id="@+id/ingredientsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ingredients"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:id="@+id/ingredientsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
-            <!-- Dynamically populated ingredient items will go here -->
-        </LinearLayout>
-
-        <!-- Instructions Section -->
-        <TextView
-            android:id="@+id/instructionsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Instructions"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:id="@+id/instructionsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
-            <!-- Dynamically populated instruction items will go here -->
-        </LinearLayout>
-
-        <!-- Calories and Rating Section -->
-        <TextView
-            android:id="@+id/caloriesRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calories per serving: "
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Tags Section -->
-        <TextView
-            android:id="@+id/tagsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tags"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:id="@+id/tags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-            <!-- Dynamically populated tags will go here -->
-        </LinearLayout>
-
-        <!-- Types Section -->
-
-
-
-        <TextView
-            android:id="@+id/typesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Types"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:id="@+id/types"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        </LinearLayout>
-
-
-
-
-    </LinearLayout>
-
-
-
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

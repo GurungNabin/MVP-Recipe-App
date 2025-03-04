@@ -43,6 +43,18 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/idFabRecipeListDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/download_foreground"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/idFabAddRecipe"
+        app:layout_anchorGravity="bottom|end"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/idFabAddRecipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,5 +64,8 @@
         app:layout_anchor="@id/recyclerView"
         app:layout_anchorGravity="bottom|end"
         tools:ignore="SpeakableTextPresentCheck" />
+
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
