@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -143,11 +144,10 @@ public class RecipeFragment extends Fragment implements RecipeView {
                 }
         );
 
-
+// generate and download the pdf
         FloatingActionButton downloadRecipe = view.findViewById(R.id.idFabRecipeListDownload);
         downloadRecipe.setOnClickListener(v -> {
-            // This ensures the PDF is generated only when the user clicks the download button
-            generateAndDownloadPDF();
+               generateAndDownloadPDF();
         });
 
 
@@ -179,6 +179,44 @@ public class RecipeFragment extends Fragment implements RecipeView {
             Toast.makeText(getActivity(), "No recipes available to generate PDF.", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        ProgressBar progressBar = getView().findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);  // Show the progress bar
+        progressBar.setProgress(0);  // Reset progress to 0
+
+        // Simulate a long task (e.g., generating and downloading the PDF)
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Simulate the process and update progress
+                for (int progress = 1; progress <= 100; progress++) {
+                    try {
+                        // Simulate work by sleeping for 50ms (you can replace this with actual work like file download)
+                        Thread.sleep(50);
+
+                        // Update the progress bar on the main thread
+                        int finalProgress = progress;
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setProgress(finalProgress);
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // Once the process is done, hide the progress bar and show a message
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);  // Hide the progress bar
+                        Toast.makeText(getActivity(), "PDF Download Complete!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String timestamp = sdf.format(new Date());
@@ -268,61 +306,16 @@ public class RecipeFragment extends Fragment implements RecipeView {
             document.add(table);
             document.close();
 
-            Toast.makeText(getActivity(), "PDF Generated Successfully!", Toast.LENGTH_SHORT).show();
-            openGeneratedPDF(pdfFile);
+//            Toast.makeText(getActivity(), "PDF Generated Successfully!", Toast.LENGTH_SHORT).show();
+//            openGeneratedPDF(pdfFile);
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "Error generating PDF", Toast.LENGTH_SHORT).show();
-        }
-    }
-    // Method to open the PDF file
-    private void openGeneratedPDF(File pdfFile) {
-        // Use the correct authority based on your package name
-        Uri pdfUri = FileProvider.getUriForFile(getActivity(), getContext().getPackageName() + ".provider", pdfFile);
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(pdfUri, "application/pdf");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        // Check if there's an app to handle the PDF file
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(getActivity(), "No PDF viewer available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Error generating PDF" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-//    private void fetchDataFromAPI() {
-//        RecipeApiService recipeApi = RetrofitClient.getApiService();
-//        Call<MyApiRecipe> call = recipeApi.getRecipes();
-//
-//        call.enqueue(new Callback<MyApiRecipe>() {
-//            @Override
-//            public void onResponse(Call<MyApiRecipe> call, Response<MyApiRecipe> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    MyApiRecipe myApiRecipe = response.body();
-//                    List<ApiRecipe> apiRecipes = myApiRecipe.getApiRecipes();
-//
-//                    Log.d("API_DATA", "Fetched API data: " + apiRecipes.size());
-//
-//
-//                    for (ApiRecipe apiRecipe : apiRecipes) {
-//                        Recipe recipe = getRecipe(apiRecipe);
-//                        recipes.add(recipe);
-//                    }
-//                    recipeAdapter.notifyDataSetChanged();
-//                } else {
-//                    Log.e("API_ERROR", "Error: " + response.message());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MyApiRecipe> call, Throwable t) {
-//                Log.e("API_FAILURE", "Error data: " + t.getMessage());
-//            }
-//        });
-//    }
+
 
 
     private void fetchDataFromAPI() {

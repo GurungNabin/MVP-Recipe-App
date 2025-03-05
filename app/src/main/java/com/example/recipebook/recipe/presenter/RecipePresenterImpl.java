@@ -59,27 +59,6 @@ public class RecipePresenterImpl implements RecipePresenter {
     }
 
 
-//    @Override
-//    public void showSearchRecipe(String query, List<Recipe> allRecipes) {
-//        List<Recipe> filteredRecipes = new ArrayList<>();
-//
-//        if (query.isEmpty()) {
-//            // If the search query is empty, return all recipes from the repository
-//            loadRecipes();
-////            filteredRecipes.addAll(allRecipes);  // Add all recipes to the filtered list
-//        } else {
-//            // Otherwise, filter the recipes based on the query
-//            for (Recipe recipe : allRecipes) {
-//                if (recipe.getName().toLowerCase().contains(query.toLowerCase())) {
-//                    filteredRecipes.add(recipe);
-//                }
-//            }
-//        }
-//
-//        // Pass the filtered or full list to the view (fragment)
-//        view.showFilteredRecipes(filteredRecipes);
-//    }
-
     @Override
     public void showSearchRecipe(String query, List<Recipe> allRecipes) {
         Log.d("SEARCH", "Query: " + query);  // Log query
@@ -87,12 +66,11 @@ public class RecipePresenterImpl implements RecipePresenter {
         List<Recipe> filteredRecipes = new ArrayList<>();
 
         if (query.isEmpty()) {
-            // If the search query is empty, return all recipes from the database
             loadRecipes();  // Fetch data from the DB again
             Log.d("SEARCH", "Search query is empty, loading recipes.");
 
         } else {
-            // Otherwise, filter the recipes based on the query
+
             for (Recipe recipe : allRecipes) {
                 if (recipe.getName().toLowerCase().contains(query.toLowerCase())) {
                     filteredRecipes.add(recipe);
@@ -101,12 +79,10 @@ public class RecipePresenterImpl implements RecipePresenter {
             }
         }
 
-        // Pass the filtered or full list to the view (fragment)
         if (query.isEmpty()) {
-            // Make sure we don't override the results with the filtered list
-            view.showFilteredRecipes(allRecipes);  // Show all recipes, including both DB and API data
+            view.showFilteredRecipes(allRecipes);
         } else {
-            view.showFilteredRecipes(filteredRecipes);  // Show only the filtered recipes
+            view.showFilteredRecipes(filteredRecipes);
         }
     }
 
