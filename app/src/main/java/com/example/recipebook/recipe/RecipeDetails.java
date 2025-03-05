@@ -113,8 +113,9 @@ public class RecipeDetails extends AppCompatActivity implements RecipeDetailCont
         isDownloaded = true;
         pdfFile = new File(pdfUri.getPath());
         downloadButton.setImageResource(R.drawable.share_foreground);
-        showShareOption(pdfFile);
+        showShareOption(pdfUri);
     }
+
 
     @Override
     public void onDownloadFailure(String error) {
@@ -167,20 +168,66 @@ public class RecipeDetails extends AppCompatActivity implements RecipeDetailCont
         }
     }
 
-    private void showShareOption(File file) {
-        if (file != null && file.exists()) {
+//    private void showShareOption(File file) {
+//        if (file != null && file.exists()) {
+//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//            shareIntent.setType("application/pdf");
+//            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
+//
+//            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//            startActivity(Intent.createChooser(shareIntent, "Share PDF"));
+//        } else {
+//            Toast.makeText(this, "PDF file is not available", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+//    private void showShareOption(File file) {
+//        if (file != null && file.exists()) {
+//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//            shareIntent.setType("application/pdf");
+//
+//            // For Android 7 and above, using FileProvider to get URI for the file
+//            Uri uri;
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
+//                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            } else {
+//                uri = Uri.fromFile(file);  // Direct URI for devices below Android 7
+//            }
+//
+//            // Share the URI with other apps
+//            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//
+//            // Launch the share intent
+//            startActivity(Intent.createChooser(shareIntent, "Share PDF"));
+//        } else {
+//            Toast.makeText(this, "PDF file is not available", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+    private void showShareOption(Uri pdfUri) {
+        if (pdfUri != null) {
+            // For Android 7 and above, using FileProvider to get URI for the file
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("application/pdf");
-            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
 
-            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            // Add the URI directly to the share intent
+            shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
 
+            // For Android 7 and above, grant read URI permission
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+
+            // Launch the share intent
             startActivity(Intent.createChooser(shareIntent, "Share PDF"));
         } else {
             Toast.makeText(this, "PDF file is not available", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void setImageAdapter(ArrayList<String> recipeImage) {
         imageAdapter = new ImageAdapter(this, recipeImage);
