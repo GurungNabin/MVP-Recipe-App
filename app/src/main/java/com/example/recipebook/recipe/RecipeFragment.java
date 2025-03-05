@@ -54,6 +54,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -141,14 +143,6 @@ public class RecipeFragment extends Fragment implements RecipeView {
                 }
         );
 
-        // floating action button to download recipe list
-//        FloatingActionButton downloadRecipe = view.findViewById(R.id.idFabRecipeListDownload);
-//        downloadRecipe.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                generateAndDownloadPDF();
-//            }
-//        });
 
         FloatingActionButton downloadRecipe = view.findViewById(R.id.idFabRecipeListDownload);
         downloadRecipe.setOnClickListener(v -> {
@@ -299,35 +293,73 @@ public class RecipeFragment extends Fragment implements RecipeView {
         }
     }
 
+//    private void fetchDataFromAPI() {
+//        RecipeApiService recipeApi = RetrofitClient.getApiService();
+//        Call<MyApiRecipe> call = recipeApi.getRecipes();
+//
+//        call.enqueue(new Callback<MyApiRecipe>() {
+//            @Override
+//            public void onResponse(Call<MyApiRecipe> call, Response<MyApiRecipe> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    MyApiRecipe myApiRecipe = response.body();
+//                    List<ApiRecipe> apiRecipes = myApiRecipe.getApiRecipes();
+//
+//                    Log.d("API_DATA", "Fetched API data: " + apiRecipes.size());
+//
+//
+//                    for (ApiRecipe apiRecipe : apiRecipes) {
+//                        Recipe recipe = getRecipe(apiRecipe);
+//                        recipes.add(recipe);
+//                    }
+//                    recipeAdapter.notifyDataSetChanged();
+//                } else {
+//                    Log.e("API_ERROR", "Error: " + response.message());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MyApiRecipe> call, Throwable t) {
+//                Log.e("API_FAILURE", "Error data: " + t.getMessage());
+//            }
+//        });
+//    }
+
+
     private void fetchDataFromAPI() {
-        RecipeApiService recipeApi = RetrofitClient.getApiService();
-        Call<MyApiRecipe> call = recipeApi.getRecipes();
+        try {
+            RecipeApiService recipeApi = RetrofitClient.getApiService();
+            Call<MyApiRecipe> call = recipeApi.getRecipes();
 
-        call.enqueue(new Callback<MyApiRecipe>() {
-            @Override
-            public void onResponse(Call<MyApiRecipe> call, Response<MyApiRecipe> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    MyApiRecipe myApiRecipe = response.body();
-                    List<ApiRecipe> apiRecipes = myApiRecipe.getApiRecipes();
+            call.enqueue(new Callback<MyApiRecipe>() {
+                @Override
+                public void onResponse(Call<MyApiRecipe> call, Response<MyApiRecipe> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        MyApiRecipe myApiRecipe = response.body();
+                        List<ApiRecipe> apiRecipes = myApiRecipe.getApiRecipes();
 
-                    Log.d("API_DATA", "Fetched API data: " + apiRecipes.size());
+                        Log.d("API_DATA", "Fetched API data: " + apiRecipes.size());
 
+                        for (ApiRecipe apiRecipe : apiRecipes) {
+                            Log.d("IMAGE_URL", "Image URL: " + apiRecipe.getImage()); // Log the image URL
 
-                    for (ApiRecipe apiRecipe : apiRecipes) {
-                        Recipe recipe = getRecipe(apiRecipe);
-                        recipes.add(recipe);
+                            Recipe recipe = getRecipe(apiRecipe);
+                            recipes.add(recipe);
+                        }
+                        recipeAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.e("API_ERROR", "Error: " + response.message());
                     }
-                    recipeAdapter.notifyDataSetChanged();
-                } else {
-                    Log.e("API_ERROR", "Error: " + response.message());
                 }
-            }
 
-            @Override
-            public void onFailure(Call<MyApiRecipe> call, Throwable t) {
-                Log.e("API_FAILURE", "Error: " + t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<MyApiRecipe> call, Throwable t) {
+                    Log.e("API_FAILURE", "Error data: " + t.getMessage());
+                }
+            });
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            e.printStackTrace();
+            Log.e("API_FAILURE", "Error initializing Retrofit: " + e.getMessage());
+        }
     }
 
 

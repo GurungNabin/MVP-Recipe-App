@@ -23,6 +23,7 @@ package com.example.recipebook.recipe.presenter;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.example.recipebook.recipe.contract.RecipeDetailContract;
 import com.example.recipebook.recipe.model.Recipe;
@@ -41,6 +42,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class RecipeDetailsPresenter implements RecipeDetailContract.Presenter{
 
@@ -69,31 +71,16 @@ public class RecipeDetailsPresenter implements RecipeDetailContract.Presenter{
         }
     }
 
-//    private File createPdf(Recipe recipe) throws IOException {
-//        File pdfDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"RecipeBook");
-//        if(!pdfDir.exists()){
-//            pdfDir.mkdirs();
-//        }
-//        File pdfFile = new File(pdfDir, recipe.getName().replaceAll("\\s+","_") + ".pdf");
-//
-//        PdfWriter writer = new PdfWriter(new FileOutputStream(pdfFile));
-//        PdfDocument pdfDocument = new PdfDocument(writer);
-//        Document document = new Document(pdfDocument);
-//
-//
-//        // Add recipe details
-//        document.add(new Paragraph("Recipe: " + recipe.getName()).setBold());
-//        document.add(new Paragraph("\nIngredients:\n" + recipe.getIngredients()));
-//        document.add(new Paragraph("\nInstructions:\n" + recipe.getInstructions()));
-//
-//        document.close();
-//        return pdfFile;
-//    }
 
     public static File createPdf(Recipe recipe) throws IOException {
         File pdfDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "RecipeBook");
         if (!pdfDir.exists()) {
-            pdfDir.mkdirs();
+            boolean dirCreated = pdfDir.mkdirs();
+            if (dirCreated) {
+                Log.d("PDF Directory", "Directory created successfully");
+            } else {
+                Log.d("PDF Directory", "Directory creation failed");
+            }
         }
 
         File pdfFile = new File(pdfDir, recipe.getName().replaceAll("\\s+", "_") + ".pdf");
