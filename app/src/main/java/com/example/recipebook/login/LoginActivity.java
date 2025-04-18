@@ -32,7 +32,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         etEmail = findViewById(R.id.emailEditText);
         etPassword = findViewById(R.id.passwordEditText);
         btnSignIn = findViewById(R.id.loginButton);
-        loginPresenter = new LoginPresenter(this, loginModel);
+//        loginPresenter = new LoginPresenter(this, loginModel);
+        loginPresenter = new LoginPresenter(this);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override

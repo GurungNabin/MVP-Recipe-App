@@ -13,7 +13,16 @@ public class LoginContract {
         void onLoginButtonClick(String email,String password);
     }
 
-      public interface Model{
-        boolean login(String email, String password);
+//      public interface Model{
+//        boolean login(String email, String password);
+//    }
+
+    public interface  Model{
+        void login(String email,String password, LoginCallback callback);
+
+        interface LoginCallback{
+            void onSuccess(String token);
+            void onError(String message);
+        }
     }
 }
